@@ -38,7 +38,7 @@ try:
                                       default=data["Maquina"].unique())
     
     df_filtered = data[data["Maquina"].isin(maquinas)]
-    df_filtered = df_filtered[[df_filtered["Estatus"] == "Cerrada"] and [df_filtered["CausoParo"] == "Si"]]
+    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
 
     # --- CÁLCULO DE MTTR ---
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
