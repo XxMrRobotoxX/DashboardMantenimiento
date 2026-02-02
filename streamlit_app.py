@@ -15,7 +15,6 @@ st.title("📊 Dashboard de Mantenimiento - ABTeflu Norte")
 # 1. Reemplaza este enlace con tu URL de Google Sheets (formato CSV)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=0&single=true&output=csv"
 
-@st.cache_data
 def load_data(url):
     df = pd.read_csv(url)
     
