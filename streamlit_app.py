@@ -19,8 +19,8 @@ def load_data(url):
     df = pd.read_csv(url)
     
     # Combinar Fecha y Hora para Inicio y Fin
-    df['Start_DT'] = pd.to_datetime(df['FechaInicio'] + ' ' + df['HoraInicio'], format='%d/%m/%Y %H:%M')
-    df['End_DT'] = pd.to_datetime(df['FechaFin'] + ' ' + df['HoraFin'], format='%d/%m/%Y %H:%M')
+    df['Start_DT'] = pd.to_datetime((df['FechaInicio'] + ' ' + df['HoraInicio']), format='%d/%m/%Y %H:%M')
+    df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
     
     # Calcular duración en horas (Tiempo de reparación)
     df['Duration_Hrs'] = (df['End_DT'] - df['Start_DT']).dt.total_seconds() / 3600
