@@ -46,6 +46,13 @@ try:
     mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
 
     # --- VISUALIZACIÓN ---
+
+    total_mttr = df_filtered["Duration_Hrs"].mean()
+    st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}")
+    st.metric("Total Intervenciones", len(df_filtered))
+        
+    st.dataframe(mttr_df, hide_index=True)
+    
     col1, col2 = st.columns([2, 1])
 
     with col1:
@@ -60,12 +67,14 @@ try:
         st.plotly_chart(fig, use_container_width=True)
 
     with col2:
-        st.subheader("Resumen Métricas")
-        total_mttr = df_filtered["Duration_Hrs"].mean()
-        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}")
-        st.metric("Total Intervenciones", len(df_filtered))
+        st.subheader("Frecuencia Fallas")
+        fig2 = px.bar(mttr_df,
+                     x="Cantidad_Fallas",
+                     y="Maquina",
+                     text_auto='.2f',
+                     title="Cantidad de fallas")
+        st.plotly_chart(fig2, use_container_widht=True)
         
-        st.dataframe(mttr_df, hide_index=True)
 
     # --- TABLA DE DATOS ---
     with st.expander("Ver datos completos"):
