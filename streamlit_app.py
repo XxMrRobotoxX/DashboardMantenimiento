@@ -58,7 +58,7 @@ try:
     with col2:
         st.metric("Total Intervenciones", len(df_filtered))
     
-    col3, col4 = st.columns([3, 1])
+    col3, col4 = st.columns([2, 1])
 
     with col3:
         st.subheader("MTTR por Máquina")
