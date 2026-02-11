@@ -74,8 +74,7 @@ try:
                      y="Maquina",
                      text_auto='.2f',
                      title="Cantidad de fallas",
-                     color="Cantidad Fallas",
-                     color_continuous_scale="Reds")
+                     color="Red")
         st.plotly_chart(fig2, use_container_widht=True)
         
 
