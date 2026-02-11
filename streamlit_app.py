@@ -67,13 +67,15 @@ try:
         st.plotly_chart(fig, use_container_width=True)
 
     with col2:
-        mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=False)
+        mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
         st.subheader("Frecuencia Fallas")
         fig2 = px.bar(mttr_df,
                      x="Cantidad_Fallas",
                      y="Maquina",
                      text_auto='.2f',
-                     title="Cantidad de fallas")
+                     title="Cantidad de fallas",
+                     color="Cantidad Fallas",
+                     color_continuous_scale="Reds")
         st.plotly_chart(fig2, use_container_widht=True)
         
 
