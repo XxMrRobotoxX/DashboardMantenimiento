@@ -72,7 +72,7 @@ try:
         fig2 = px.bar(mttr_df,
                      x="Cantidad_Fallas",
                      y="Maquina",
-                     text_auto='.2f',
+                     text_auto='.0f',
                      title="Cantidad de fallas",
                      color="Cantidad_Fallas",
                      color_continuous_scale="Reds",
