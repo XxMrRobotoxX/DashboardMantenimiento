@@ -67,11 +67,11 @@ try:
     col1, col2 = st.columns(2)
 
     total_mttr = df_filtered["Duration_Hrs"].mean()
-    meta_mttr = 3
+    meta_mttr = 1.2
     delta_mttr = total_mttr - meta_mttr
     
     with col1:
-        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse", border=True)
+        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
 
     with col2:
         st.metric("Total Intervenciones", len(df_filtered))
@@ -101,6 +101,18 @@ try:
                      color_continuous_scale="Reds",
                      orientation='h')
         st.plotly_chart(fig2, use_container_widht=True)
+
+    col5, col6 = st.columns(2)
+    maquina_pareto = st.selectbox(
+        "Seleccionar Máquina",options = data['Maquina'].unique())
+
+    
+
+    with col5:
+        #st.subheader("Diagrama de pareto 80-20")
+        #fig3 = px.bar(xxx,
+        #              x = "Falla",
+        #              y = "Tiempo muerto (horas)",
         
 
     # --- TABLA DE DATOS ---
