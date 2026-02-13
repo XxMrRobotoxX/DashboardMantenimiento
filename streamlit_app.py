@@ -106,7 +106,7 @@ try:
 
     df_pareto = data[['Maquina','Falla']]
     lista_maquinas = df_pareto.sort_values(by="Maquina", ascending = True)
-    #lista_maquinas = lista_maquinas['Maquina'].unique()
+    lista_maquinas = lista_maquinas['Maquina'].unique()
     st.write(lista_maquinas)
     #maquina_pareto = st.selectbox(
     #    "Seleccionar Máquina", options = lista_maquinas)
