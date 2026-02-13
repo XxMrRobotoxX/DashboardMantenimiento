@@ -67,11 +67,11 @@ try:
     col1, col2 = st.columns(2)
 
     total_mttr = df_filtered["Duration_Hrs"].mean()
-    meta_mttr = 1.2
+    meta_mttr = 3
     delta_mttr = total_mttr - meta_mttr
     
     with col1:
-        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
+        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse", border="True")
 
     with col2:
         st.metric("Total Intervenciones", len(df_filtered))
