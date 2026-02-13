@@ -107,8 +107,9 @@ try:
     data_8020 = data.columns['Maquina','Falla','Duration_Hrs']
     lista_maquinas = data_8020.sort_values(by="Maquina", ascending = True)
     lista_maquinas = lista_maquinas['Maquina'].unique()
-    maquina_pareto = st.selectbox(
-        "Seleccionar Máquina", options = lista_maquinas)
+    print(lista_maquinas)
+    #maquina_pareto = st.selectbox(
+    #    "Seleccionar Máquina", options = lista_maquinas)
 
     
 
