@@ -106,7 +106,7 @@ try:
 
     lista_maquinas = data["Maquina"].unique()
     maquina_pareto = st.selectbox(
-        "Seleccionar Máquina", options = lista_maquinas)
+        "Seleccionar Máquina", options = lista_maquinas.sort())
 
     
 
