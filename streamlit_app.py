@@ -104,7 +104,7 @@ try:
 
     col5, col6 = st.columns(2)
 
-    data_8020 = data['Maquina','Falla','Duration_Hrs']
+    data_8020 = data['Maquina','Falla']
     #lista_maquinas = data_8020.sort_values(by="Maquina", ascending = True)
     #lista_maquinas = lista_maquinas['Maquina'].unique()
     st.write(data_8020)
