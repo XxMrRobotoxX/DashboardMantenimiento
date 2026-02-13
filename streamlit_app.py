@@ -104,7 +104,7 @@ try:
 
     col5, col6 = st.columns(2)
     maquina_pareto = st.selectbox(
-        "Seleccionar Máquina",options = data['Maquina'].unique())
+        "Seleccionar Máquina",options = data['Maquina'].unique().sort_values(by="Maquina", ascending=True))
 
     
 
