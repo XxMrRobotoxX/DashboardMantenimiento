@@ -111,7 +111,7 @@ try:
     maquina_pareto = st.selectbox(
         "Seleccionar Máquina", options = lista_maquinas)
 
-    df_pareto_filtered = df_pareto[df_pareto['Maquina'].isin(maquina_pareto)]
+    df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
 
     st.write(df_pareto_filtered)
 
