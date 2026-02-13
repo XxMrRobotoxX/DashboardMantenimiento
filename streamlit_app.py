@@ -71,7 +71,7 @@ try:
     delta_mttr = total_mttr - meta_mttr
     
     with col1:
-        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse", border="True")
+        st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse", border=True)
 
     with col2:
         st.metric("Total Intervenciones", len(df_filtered))
