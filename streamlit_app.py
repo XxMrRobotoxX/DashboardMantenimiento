@@ -104,14 +104,16 @@ try:
 
     col5, col6 = st.columns(2)
 
-    df_pareto = data[['Maquina','Falla']]
+    df_pareto = data[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = df_pareto.sort_values(by="Maquina", ascending = True)
     lista_maquinas = lista_maquinas['Maquina'].unique()
     #st.write(lista_maquinas)
     maquina_pareto = st.selectbox(
         "Seleccionar Máquina", options = lista_maquinas)
 
-    
+    df_pareto_filtered = df_pareto[df_pareto['Maquina'].isin(maquina_pareto)]
+
+    st.write(df_pareto_filtered)
 
     #with col5:
         #st.subheader("Diagrama de pareto 80-20")
