@@ -108,7 +108,7 @@ try:
 
     
 
-    with col5:
+    #with col5:
         #st.subheader("Diagrama de pareto 80-20")
         #fig3 = px.bar(xxx,
         #              x = "Falla",
