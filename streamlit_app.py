@@ -103,8 +103,10 @@ try:
         st.plotly_chart(fig2, use_container_widht=True)
 
     col5, col6 = st.columns(2)
+
+    lista_maquinas = data["Maquina"].unique().sort_values(by="Maquina", ascending = True)
     maquina_pareto = st.selectbox(
-        "Seleccionar Máquina",options = data['Maquina'].unique().sort_values(by="Maquina", ascending=True))
+        "Seleccionar Máquina", options = lista_maquinas)
 
     
 
