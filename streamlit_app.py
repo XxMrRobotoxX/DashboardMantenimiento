@@ -10,7 +10,7 @@ count = st_autorefresh(interval=300000, key="datarefresh")
 # Configuración de la página
 st.set_page_config(page_title="Dashboard MTTR Maintenance", layout="wide")
 
-st.title("📊 Dashboard de Mantenimiento - ABTeflu Norte")
+st.title("Indicadores Mantenimiento - ABTeflu Norte")
 
 # 1. Reemplaza este enlace con tu URL de Google Sheets (formato CSV)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=0&single=true&output=csv"
