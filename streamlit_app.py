@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
 
 # Actualizar la aplicación cada 5 minutos (300,000 milisegundos)
@@ -87,7 +88,10 @@ try:
                      title="Tiempo Medio de Reparación (Horas)",
                      color="MTTR (Horas)",
                      color_continuous_scale="Reds")
+
+        fig.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
         st.plotly_chart(fig, use_container_width=True)
+
 
     with col4:
         mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
