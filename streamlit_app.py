@@ -15,6 +15,7 @@ st.title("Indicadores Mantenimiento - ABTeflu Norte")
 
 # 1. Reemplaza este enlace con tu URL de Google Sheets (formato CSV)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=0&single=true&output=csv"
+SHEET_MAQUINAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=1778461736&single=true&output=csv"
 
 def load_data(url):
     df = pd.read_csv(url)
@@ -30,6 +31,7 @@ def load_data(url):
 
 try:
     data = load_data(SHEET_URL)
+    data_maquinas = pd.read_csv(SHEET_MAQUINAS)
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
@@ -109,8 +111,8 @@ try:
     col5, col6 = st.columns(2)
 
     df_pareto = data[['Maquina','Falla','Duration_Hrs']]
-    lista_maquinas = df_pareto.sort_values(by="Maquina", ascending = True)
-    lista_maquinas = lista_maquinas['Maquina'].unique()
+    lista_maquinas = data_maquinas['Maquina']
+    #lista_maquinas = lista_maquinas['Maquina'].unique()
     #st.write(lista_maquinas)
     maquina_pareto = st.selectbox(
         "Seleccionar Máquina", options = lista_maquinas)
