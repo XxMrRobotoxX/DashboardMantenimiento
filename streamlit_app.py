@@ -104,10 +104,10 @@ try:
 
     col5, col6 = st.columns(2)
 
-    data_8020 = data['Maquina','Falla']
+    #df_pareto = data['Maquina','Falla']
     #lista_maquinas = data_8020.sort_values(by="Maquina", ascending = True)
     #lista_maquinas = lista_maquinas['Maquina'].unique()
-    st.write(data_8020)
+    st.write(data)
     #maquina_pareto = st.selectbox(
     #    "Seleccionar Máquina", options = lista_maquinas)
 
