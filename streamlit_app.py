@@ -52,11 +52,11 @@ try:
     if crit_filtred:
         df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
-        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
+        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
     else:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
-        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
+        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
@@ -96,7 +96,7 @@ try:
 
 
     with col4:
-        mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
+        mttr_df = mttr_df.sort_values(by="Cantidad Fallas", ascending=True)
         st.subheader("Frecuencia Fallas")
         fig2 = px.bar(mttr_df,
                      x="Cantidad Fallas",
