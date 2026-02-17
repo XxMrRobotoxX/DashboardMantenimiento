@@ -141,6 +141,10 @@ try:
             x=df_pareto_filtered['Falla'],
             y=df_pareto_filtered['PorecentajeAcum']
         ))
+
+        fig3.update_layout(
+            yaxis2=dict(title='Porcentaje Acumulado', overlaying='y', side='right', range=[0, 105])
+        )
         
         st.plotly_chart(fig3, use_container_width=True)
 
