@@ -119,7 +119,7 @@ try:
         df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
         lista_maquinas = data_maquinas[['ID']]
         #lista_maquinas = lista_maquinas['Maquina'].unique()
-        st.write(lista_maquinas)
+        #st.write(lista_maquinas)
         maquina_pareto = st.selectbox(
             "Seleccionar Máquina", options = lista_maquinas)
     
