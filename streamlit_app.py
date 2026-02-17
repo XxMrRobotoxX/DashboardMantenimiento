@@ -126,11 +126,8 @@ try:
         st.subheader("Diagrama de pareto 80-20")
         fig3 = px.bar(df_pareto_filtered, 
                      x="Falla", 
-                     y="Duration_Hrs", 
-                     text_auto='.2f',
-                     title="Pareto por máquina",
-                     color="Duration_Hrs",
-                     color_continuous_scale="Reds")
+                     y="Duration_Hrs"
+                     )
         
         st.plotly_chart(fig3, use_container_width=True)
         
