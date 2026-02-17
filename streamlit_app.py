@@ -120,7 +120,7 @@ try:
     df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
     df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False)
 
-    st.write(df_pareto_filtered)
+    #st.write(df_pareto_filtered)
 
     with col5:
         st.subheader("Diagrama de pareto 80-20")
@@ -130,6 +130,10 @@ try:
                      )
         
         st.plotly_chart(fig3, use_container_width=True)
+
+    with col6:
+        st.subheader('Datos')
+        st.dataframe(df_pareto_filtered, use_container_width=True)
         
 
     # --- TABLA DE DATOS ---
