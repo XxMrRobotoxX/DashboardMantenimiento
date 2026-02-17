@@ -125,6 +125,7 @@ try:
     
         df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
+        df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
         
         st.subheader("Diagrama de pareto 80-20")
         fig3 = px.bar(df_pareto_filtered,
@@ -135,6 +136,14 @@ try:
                       color_continuous_scale='Reds',
                       labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
                      )
+
+        fig3.add_trace(go.Scatter(
+            x=df_pareto_filtered['Falla'],
+            y=df_pareto_filtered['PorecentajeAcum'],
+            name='Porcentaje Acumulado',
+            yaxis='y2',
+            line=dict(color='firebrick', widht=3)
+        )
         
         st.plotly_chart(fig3, use_container_width=True)
 
