@@ -128,6 +128,7 @@ try:
                       x = "Falla",
                       y = "Duration_Hrs",
                       )
+        st.plotly_chart(fig3, use_container_width=True)
         
 
     # --- TABLA DE DATOS ---
