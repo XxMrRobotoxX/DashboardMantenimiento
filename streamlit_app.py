@@ -157,8 +157,8 @@ try:
                 name='Duración (Hrs)',
                 marker=dict(
                     color=df_pareto_filtered['Duration_Hrs'],
-                    colorscale='Inferno',
-                    showscale=True
+                    colorscale='Reds',
+                    showscale=False
                 )
             )
         )
