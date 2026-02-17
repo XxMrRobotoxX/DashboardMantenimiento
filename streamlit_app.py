@@ -131,16 +131,16 @@ try:
         fig3 = px.bar(df_pareto_filtered,
                       x='Falla',
                       y='Duration_Hrs',
-                      text_auto='.2f',
-                      color='Duration_Hrs',
-                      color_continuous_scale='Reds',
+                      #text_auto='.2f',
+                      #color='Duration_Hrs',
+                      #color_continuous_scale='Reds',
                       labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
                      )
 
-        #fig3.add_trace(go.Scatter(
-        #    x=df_pareto_filtered['Falla'],
-        #    y=df_pareto_filtered['PorecentajeAcum']
-        #))
+        fig3.add_trace(go.Scatter(
+            x=df_pareto_filtered['Falla'],
+            y=df_pareto_filtered['PorcentajeAcum']
+        ))
 
         #fig3.update_layout(
         #    yaxis2=dict(title='Porcentaje Acumulado', overlaying='y', side='right', range=[0, 105])
