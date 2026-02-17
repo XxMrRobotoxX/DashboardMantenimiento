@@ -110,7 +110,7 @@ try:
 
     col5, col6 = st.columns(2)
 
-    df_pareto = data[['Maquina','Falla','Duration_Hrs']]
+    df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
     #lista_maquinas = lista_maquinas['Maquina'].unique()
     #st.write(lista_maquinas)
