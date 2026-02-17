@@ -118,7 +118,7 @@ try:
         "Seleccionar Máquina", options = lista_maquinas)
 
     df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-    df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False)
+    df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
 
     #st.write(df_pareto_filtered)
 
