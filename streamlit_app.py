@@ -128,24 +128,70 @@ try:
         df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
         
         st.subheader("Diagrama de pareto 80-20")
-        fig3 = px.bar(df_pareto_filtered,
-                      x='Falla',
-                      y='Duration_Hrs',
+        #fig3 = px.bar(df_pareto_filtered,
+                      #x='Falla',
+                      #y='Duration_Hrs',
                       #text_auto='.2f',
                       #color='Duration_Hrs',
                       #color_continuous_scale='Reds',
-                      labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
-                     )
+        #              labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
+        #             )
 
-        fig3.add_trace(go.Scatter(
-            x=df_pareto_filtered['Falla'],
-            y=df_pareto_filtered['PorcentajeAcum']
-        ))
+        #fig3.add_trace(go.Scatter(
+        #    x=df_pareto_filtered['Falla'],
+        #    y=df_pareto_filtered['PorcentajeAcum']
+        #))
 
-        fig3.update_layout(
-            yaxis2=dict(title='Porcentaje Acumulado', overlaying='y', side='right', range=[0, 105])
+        #fig3.update_layout(
+        #    yaxis2=dict(title='Porcentaje Acumulado', overlaying='y', side='right', range=[0, 105])
+        #)
+        
+        #st.plotly_chart(fig3, use_container_width=True)
+        fig3 = go.Figure()
+        
+        # Añadir Barras (Eje Y primario)
+        fig3.add_trace(
+            go.Bar(
+                x=df_pareto_filtered['Falla'],
+                y=df_pareto_filtered['Duration_Hrs'],
+                name='Duración (Hrs)',
+                marker_color='#636EFA'
+            )
         )
         
+        # Añadir Línea de Porcentaje (Eje Y secundario)
+        fig3.add_trace(
+            go.Scatter(
+                x=df_pareto_filtered['Falla'],
+                y=df_pareto_filtered['PorcentajeAcum'],
+                name='Porcentaje Acumulado',
+                mode='lines+markers',
+                line=dict(color='#EF553B', width=3),
+                yaxis='y2' # Indicamos que use el segundo eje
+            )
+        )
+        
+        # 3. Configuración del Layout para el eje secundario
+        fig3.update_layout(
+            title='Análisis de Fallas (Pareto)',
+            xaxis=dict(title='Falla'),
+            yaxis=dict(
+                title='Duración (Hrs)',
+                side='left'
+            ),
+            yaxis2=dict(
+                title='Porcentaje Acumulado (%)',
+                side='right',
+                overlaying='y',
+                range=[0, 105], # Rango de 0 a 100%
+                ticksuffix='%'
+            ),
+            legend=dict(x=0.8, y=1.1, orientation='h'),
+            template='plotly_dark' # Estilo oscuro para que combine con tu imagen
+        )
+        
+        # 4. Mostrar en Streamlit
+        st.title("Reporte de Mantenimiento")
         st.plotly_chart(fig3, use_container_width=True)
 
     #with col6:
