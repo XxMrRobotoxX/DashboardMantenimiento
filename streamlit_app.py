@@ -137,7 +137,6 @@ try:
                       labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
                      )
 
-        fig3.add_hline(y=3, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
         #fig3.add_trace(go.Scatter(
         #    x=df_pareto_filtered['Falla'],
         #    y=df_pareto_filtered['PorecentajeAcum']
@@ -155,6 +154,7 @@ try:
         
 
     # --- TABLA DE DATOS ---
+    st.write(df_pareto_filtered)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
