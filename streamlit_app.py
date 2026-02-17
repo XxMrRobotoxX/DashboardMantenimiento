@@ -139,10 +139,7 @@ try:
 
         fig3.add_trace(go.Scatter(
             x=df_pareto_filtered['Falla'],
-            y=df_pareto_filtered['PorecentajeAcum'],
-            name='Porcentaje Acumulado',
-            yaxis='y2',
-            line=dict(color='firebrick', widht=3)
+            y=df_pareto_filtered['PorecentajeAcum']
         ))
         
         st.plotly_chart(fig3, use_container_width=True)
