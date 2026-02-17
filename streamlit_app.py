@@ -191,7 +191,7 @@ try:
         )
         
         # 4. Mostrar en Streamlit
-        st.title("Reporte de Mantenimiento")
+        #st.title("80-20 Máquina")
         st.plotly_chart(fig3, use_container_width=True)
 
     #with col6:
