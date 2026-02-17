@@ -126,14 +126,18 @@ try:
         st.subheader("Diagrama de pareto 80-20")
         fig3 = px.bar(df_pareto_filtered,
                       x='Falla',
-                      y='Duration_Hrs'
+                      y='Duration_Hrs',
+                      text_auto='.2f',
+                      color='Duration_Hrs',
+                      color_continuous_scale='Reds',
+                      labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
                      )
         
         st.plotly_chart(fig3, use_container_width=True)
 
-    with col6:
-        st.subheader('Datos')
-        st.dataframe(df_pareto_filtered, use_container_width=True)
+    #with col6:
+    #    st.subheader('Datos')
+    #    st.dataframe(df_pareto_filtered, use_container_width=True)
         
 
     # --- TABLA DE DATOS ---
