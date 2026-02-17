@@ -155,7 +155,11 @@ try:
                 x=df_pareto_filtered['Falla'],
                 y=df_pareto_filtered['Duration_Hrs'],
                 name='Duración (Hrs)',
-                marker_color='#636EFA'
+                marker=dict(
+                    color=df_pareto_filtered['Duration_Hrs'],
+                    colorscale='Inferno',
+                    showscale=True
+                )
             )
         )
         
@@ -200,7 +204,6 @@ try:
         
 
     # --- TABLA DE DATOS ---
-    st.write(df_pareto_filtered)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
