@@ -118,14 +118,17 @@ try:
         "Seleccionar Máquina", options = lista_maquinas)
 
     df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+    df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False)
 
-    st.write(df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False))
+    st.write(df_pareto_filtered)
 
-    #with col5:
-        #st.subheader("Diagrama de pareto 80-20")
-        #fig3 = px.bar(xxx,
-        #              x = "Falla",
-        #              y = "Tiempo muerto (horas)",
+    with col5:
+        st.subheader("Diagrama de pareto 80-20")
+        fig3 = px.bar(df_pareto_filtered,
+                      x = "Falla",
+                      y = "Duration_Hrs",
+                      color='Duration_Hrs',
+                      color_continuous_scale='Reds')
         
 
     # --- TABLA DE DATOS ---
