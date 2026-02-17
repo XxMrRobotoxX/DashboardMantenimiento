@@ -127,8 +127,7 @@ try:
         fig3 = px.bar(df_pareto_filtered,
                       x = "Falla",
                       y = "Duration_Hrs",
-                      color='Duration_Hrs',
-                      color_continuous_scale='Reds')
+                      )
         
 
     # --- TABLA DE DATOS ---
