@@ -119,7 +119,7 @@ try:
 
     df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
 
-    st.write(df_pareto_filtered.groupby(by='Maquina', ascending=False))
+    st.write(df_pareto_filtered.groupby('Maquina'))
 
     #with col5:
         #st.subheader("Diagrama de pareto 80-20")
