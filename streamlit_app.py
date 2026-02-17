@@ -143,7 +143,7 @@ try:
             name='Porcentaje Acumulado',
             yaxis='y2',
             line=dict(color='firebrick', widht=3)
-        )
+        ))
         
         st.plotly_chart(fig3, use_container_width=True)
 
