@@ -50,25 +50,12 @@ try:
     date_start = date_filter[0].strftime('%d/%m/%Y')
     date_end = date_filter[1].strftime('%d/%m/%Y')
 
-    df_filtered = data[data["Maquina"].isin(maquinas)]
-    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
-    
-    if (date_filter != ()):
-        st.write(date_filter[1].strftime('%d/%m/%Y'))
-    
-    
-    
-    #if (date_filter == ()):
-    #    df_filtered = data[data["Maquina"].isin(maquinas)]
-    #    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-    #else:
-    #    df_filtered['FechaInicio']=pd.to_datetime(df['FechaInicio'])
-    #    df_filtered['FechaFin']=pd.to_datetime(df['FechaFin'])
-    #    df_filtered = data[data["Maquina"].isin(maquinas)]
-    #    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-    #    st.dataframe(df_filtered['FechaInicio'].day)
-        #df_filtered = df_filtered[(df_filtered['FechaInicio'].between(date_filter[0].strftime('%d/%m/%Y'),date_filter[1].strftime('%d/%m/%Y'), inclusive='both'))]
-
+    if (date_filter == ()):
+        df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
+    else:
+        df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007','RB-003']
     
