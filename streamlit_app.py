@@ -217,6 +217,7 @@ try:
         
 
     # --- TABLA DE DATOS ---
+    st.write(mttr_df)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
