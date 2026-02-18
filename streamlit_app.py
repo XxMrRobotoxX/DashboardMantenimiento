@@ -42,6 +42,7 @@ try:
 
     date_filter = st.date_input(
         'Seleccionar un rango de fecha:',
+        value=None,
         format="DD-MM-YYYY")
     
     df_filtered = data[data["Maquina"].isin(maquinas)]
