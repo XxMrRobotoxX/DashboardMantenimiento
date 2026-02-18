@@ -47,7 +47,10 @@ try:
         max_value=None,
         format="DD-MM-YYYY")
 
-    st.write(date_filter[1])
+    if date_filter === ():
+        st.write(date_filter)
+    else:
+        st.write(date_filter[1])
     
     #if (date_filter === ()):
     df_filtered = data[data["Maquina"].isin(maquinas)]
