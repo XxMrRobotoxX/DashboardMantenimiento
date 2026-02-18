@@ -52,7 +52,7 @@ try:
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
-        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'] >= date_filter[1] & (df_filtered['FechaFin'] <= date_filter[2])]
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'] >= date_filter[1]) & (df_filtered['FechaFin'] <= date_filter[2])]
 
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007','RB-003']
