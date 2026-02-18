@@ -50,7 +50,7 @@ try:
     if date_filter == ():
         st.write(date_filter)
     else:
-        st.write(date_filter[1].day)
+        st.write(date_filter[1].year)
     
     #if (date_filter == ()):
     df_filtered = data[data["Maquina"].isin(maquinas)]
