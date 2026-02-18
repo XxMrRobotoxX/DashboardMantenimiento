@@ -45,12 +45,14 @@ try:
         value=(),
         min_value=None,
         max_value=None,
-        format="DD-MM-YYYY")
+        format="DD/MM/YYYY")
     
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
     else:
+        df_filtered['FechaInicio']=pd.to_datetime(df['FechaInicio'])
+        df_filtered['FechaFin']=pd.to_datetime(df['FechaFin'])
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'] >= date_filter[1]) & (df_filtered['FechaFin'] <= date_filter[2])]
 
