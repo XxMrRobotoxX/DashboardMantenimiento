@@ -47,13 +47,16 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
+
+    df_filtered = data[data["Maquina"].isin(maquinas)]
+    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
+    
     if (date_filter != ()):
         st.write(date_filter[1].strftime('%d/%m/%Y'))
     else:
         st.dataframe(df_filtered['FechaInicio'])
     
-    df_filtered = data[data["Maquina"].isin(maquinas)]
-    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
+    
     
     #if (date_filter == ()):
     #    df_filtered = data[data["Maquina"].isin(maquinas)]
