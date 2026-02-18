@@ -34,7 +34,7 @@ def load_data(url):
 try:
     data = load_data(SHEET_URL)
     data_maquinas = pd.read_csv(SHEET_MAQUINAS)
-    data_prog = pd-read_csv(SHEET_PROG)
+    data_prog = pd.read_csv(SHEET_PROG)
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
