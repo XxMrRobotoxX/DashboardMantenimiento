@@ -46,6 +46,8 @@ try:
         min_value=None,
         max_value=None,
         format="DD-MM-YYYY")
+
+    st.write(date_filter)
     
     df_filtered = data[data["Maquina"].isin(maquinas)]
     df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
