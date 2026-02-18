@@ -17,6 +17,7 @@ st.title("Indicadores Mantenimiento - ABTeflu Norte")
 # 1. Reemplaza este enlace con tu URL de Google Sheets (formato CSV)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?output=csv"
 SHEET_MAQUINAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=1778461736&single=true&output=csv"
+SHEET_PROG = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQByV1gCIP5jr_Eq7sabppAGWwimkmf8sBhRkW3cdP9b4UV_CsXurM7dA8RKgbred24EGQsg9o8_FzT/pub?gid=1399536559&single=true&output=csv"
 
 def load_data(url):
     df = pd.read_csv(url)
@@ -33,6 +34,7 @@ def load_data(url):
 try:
     data = load_data(SHEET_URL)
     data_maquinas = pd.read_csv(SHEET_MAQUINAS)
+    data_prog = pd-read_csv(SHEET_PROG)
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
@@ -218,6 +220,7 @@ try:
 
     # --- TABLA DE DATOS ---
     st.write(mttr_df)
+    st.write(data_prog)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
