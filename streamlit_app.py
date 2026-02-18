@@ -47,9 +47,11 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
+    date_start = date_filter[0].strftime('%d/%m/%Y')
+    date_end = date_filter[1].strftime('%d/%m/%Y')
 
     df_filtered = data[data["Maquina"].isin(maquinas)]
-    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between('01/02/2026','07/02/2026',inclusive='both'))]
+    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
     
     if (date_filter != ()):
         st.write(date_filter[1].strftime('%d/%m/%Y'))
