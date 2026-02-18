@@ -82,7 +82,7 @@ try:
 
     col1, col2 = st.columns(2)
 
-    total_mttr = df_filtered["Duration_Hrs"].mean()
+    total_mttr = mttr_df['MTTR (Horas)'].mean()
     meta_mttr = 1.2
     delta_mttr = total_mttr - meta_mttr
     
