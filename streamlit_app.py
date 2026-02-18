@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
+import datetime
 
 # Actualizar la aplicación cada 5 minutos (300,000 milisegundos)
 count = st_autorefresh(interval=300000, key="datarefresh")
@@ -38,6 +39,10 @@ try:
     maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
                                       options=data["Maquina"].unique(), 
                                       default=data["Maquina"].unique())
+
+    date_filter = st.date_input(
+        'Seleccionar un rango de fecha:',
+        format="DD-MM-YYYY")
     
     df_filtered = data[data["Maquina"].isin(maquinas)]
     df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
