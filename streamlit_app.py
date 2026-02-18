@@ -42,7 +42,7 @@ try:
 
     date_filter = st.date_input(
         'Seleccionar un rango de fecha:',
-        value=None,
+        value=(),
         min_value=None,
         max_value=None,
         format="DD-MM-YYYY")
