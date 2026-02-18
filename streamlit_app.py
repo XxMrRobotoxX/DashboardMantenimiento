@@ -49,7 +49,7 @@ try:
 
 
     df_filtered = data[data["Maquina"].isin(maquinas)]
-    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'] == '16/02/2026)]
+    df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'] == '16/02/2026')]
     
     if (date_filter != ()):
         st.write(date_filter[1].strftime('%d/%m/%Y'))
