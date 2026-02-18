@@ -54,7 +54,7 @@ try:
     if (date_filter != ()):
         st.write(date_filter[1].strftime('%d/%m/%Y'))
     else:
-        st.dataframe(df_filtered['FechaInicio'])
+        st.dataframe(df_filtered['FechaInicio'].day)
     
     
     
