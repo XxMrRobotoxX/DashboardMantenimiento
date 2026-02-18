@@ -48,7 +48,7 @@ try:
         format="DD/MM/YYYY")
 
 
-    st.write(date_filter[1])
+    st.write(date_filter)
     
     df_filtered = data[data["Maquina"].isin(maquinas)]
     df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
