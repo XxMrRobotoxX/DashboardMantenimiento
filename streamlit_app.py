@@ -245,7 +245,7 @@ try:
                      color_continuous_scale="Reds")
 
         fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig4, use_container_width=True)
     
     #    st.subheader('Datos')
     #    st.dataframe(df_pareto_filtered, use_container_width=True)
