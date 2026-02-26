@@ -235,17 +235,17 @@ try:
         st.plotly_chart(fig3, use_container_width=True)
 
     #with col6:
-        st.subheader("MTTR por Máquina")
-        fig = px.bar(mttr_df, 
+        st.subheader("MTBF por Máquina")
+        fig4 = px.bar(mttbf_df_end, 
                      x="Maquina", 
-                     y="MTTR (Horas)", 
+                     y="MTBF (Horas)", 
                      text_auto='.2f',
-                     title="Tiempo Medio de Reparación (Horas)",
-                     color="MTTR (Horas)",
+                     title="Tiempo medio entre fallas (Horas)",
+                     color="MTBF (Horas)",
                      color_continuous_scale="Reds")
 
-        fig.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
-        st.plotly_chart(fig, use_container_width=True)
+        fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
+        st.plotly_chart(fig4, use_container_width=True)
     
     #    st.subheader('Datos')
     #    st.dataframe(df_pareto_filtered, use_container_width=True)
@@ -256,7 +256,7 @@ try:
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
     #st.write(date_max)
-    st.write(mtbf_df_end)
+    #st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
