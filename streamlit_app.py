@@ -49,17 +49,17 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
-    date_start = date_filter[0].strftime('%d/%m/%Y')
-    date_end = date_filter[1].strftime('%d/%m/%Y')
-
+    
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         #date_max = data['FechaFin'].min()
-        #mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
+        mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
     else:
+        date_start = date_filter[0].strftime('%d/%m/%Y')
+        date_end = date_filter[1].strftime('%d/%m/%Y')
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
         #date_max = data['FechaInicio'].max()
