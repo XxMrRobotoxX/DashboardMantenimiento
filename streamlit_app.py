@@ -62,7 +62,7 @@ try:
         mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
         mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
-    criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007','RB-003']
+    criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
     
     # --- CÁLCULO DE MTTR ---
 
@@ -73,7 +73,6 @@ try:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
-        #mtbf_df = mtbf_df[mtbf_df['Maquina'].isin(criticas)]
         mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         #mtbf_df = mtbf_df.merge(mtbf_df_2, on = 'Maquina', how = 'left')
