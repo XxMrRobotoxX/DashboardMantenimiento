@@ -52,6 +52,7 @@ try:
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
+        mtbf_df = data_prog
     else:
         date_start = date_filter[0].strftime('%d/%m/%Y')
         date_end = date_filter[1].strftime('%d/%m/%Y')
