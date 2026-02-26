@@ -236,7 +236,7 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
-    st.write(date_start)
+    st.write(date_max)
     st.write(mttr_df)
     st.write(mtbf_df)
     st.write(mtbf_df_2)
