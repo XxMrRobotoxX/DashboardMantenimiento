@@ -219,6 +219,9 @@ try:
         
 
     # --- TABLA DE DATOS ---
+
+    data_prog = data_prog.groupby('Maquina')['minProg'].sum()
+    
     st.write(mttr_df)
     st.write(data_prog)
     with st.expander("Ver datos completos"):
