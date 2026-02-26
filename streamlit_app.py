@@ -53,14 +53,16 @@ try:
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha'].max()
+        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(data_prog['Fecha'].min(),date_max,inclusive='both'))]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
     else:
         date_start = date_filter[0].strftime('%d/%m/%Y')
         date_end = date_filter[1].strftime('%d/%m/%Y')
-        date_max = date_end
+        date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
+        df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_max,inclusive='both'))]
         mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
         mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
@@ -75,14 +77,14 @@ try:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
-        mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
+        mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
     else:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
-        mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
+        mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
     
