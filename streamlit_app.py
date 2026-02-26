@@ -55,7 +55,7 @@ try:
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-        date_max = data['FechaFin'].min()
+        #date_max = data['FechaFin'].min()
         mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
