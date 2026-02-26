@@ -220,7 +220,7 @@ try:
 
     # --- TABLA DE DATOS ---
 
-    data_prog = data_prog.groupby('Maquina')['minProg'].sum()
+    data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
     st.write(mttr_df)
     st.write(data_prog)
