@@ -80,7 +80,7 @@ try:
         mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
-        mtbf_df_end = mtbf_df_end.fillna(0)
+        mtbf_df_end = mtbf_df_end.dropna()
         #mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg'] / 60) - mtbf_df_end['Tiempo Muerto']) / mtbf_df_end['CantidadFallas'].replace(0, np.nan)
         #mtbf_df_end['MTBF (Horas)'].fillna(mtbf_df_end['minProg'] / 60, inplace=True)
     else:
@@ -90,7 +90,7 @@ try:
         mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
-        mtbf_df_end = mtbf_df_end.fillna(0)
+        mtbf_df_end = mtbf_df_end.dropna()
         #mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg'] / 60) - mtbf_df_end['Tiempo Muerto']) / mtbf_df_end['CantidadFallas'].replace(0, np.nan)
         #mtbf_df_end['MTBF (Horas)'].fillna(mtbf_df_end['minProg'] / 60, inplace=True)
     
