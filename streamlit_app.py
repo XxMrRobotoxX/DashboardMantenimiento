@@ -236,17 +236,23 @@ try:
 
 
     with col6:
-        st.subheader("MTTR por Máquina")
-        fig4 = px.bar(mttr_df, 
-                     x="Maquina", 
-                     y="MTTR (Horas)", 
-                     text_auto='.2f',
-                     title="Tiempo Medio de Reparación (Horas)",
-                     color="MTTR (Horas)",
-                     color_continuous_scale="Reds")
-
-        fig4.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
+        fig4 = go.Figure()
+        
+        # Añadir Barras (Eje Y primario)
+        fig4.add_trace(
+            go.Bar(
+                x=mtbf_df_end['Maquina'],
+                y=mtbf_df_end['MTBF (Horas)'],
+                name='MTBF (Horas)',
+                marker=dict(
+                    color=mtbf_df_end['MTBF (Horas)'],
+                    colorscale='Reds',
+                    showscale=False
+                )
+            )
+        )
         st.plotly_chart(fig4, use_container_width=True)
+        
 
     #with col6:
         #st.subheader("MTBF por Máquina")
