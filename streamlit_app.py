@@ -234,9 +234,7 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
-    st.write(mttr_df)
-    st.write(mtbf_df)
-    st.write(mtbf_df_2)
+    st.write(date_max)
     st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
