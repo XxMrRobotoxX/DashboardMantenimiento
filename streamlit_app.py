@@ -236,6 +236,9 @@ try:
 
 
     with col6:
+
+        st.subheader('MTBF por Máquina')
+        
         fig4 = go.Figure()
         
         # Añadir Barras (Eje Y primario)
