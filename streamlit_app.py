@@ -52,13 +52,14 @@ try:
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-        mtbf_df = data_prog
+        mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
     else:
         date_start = date_filter[0].strftime('%d/%m/%Y')
         date_end = date_filter[1].strftime('%d/%m/%Y')
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
         mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
+        mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007','RB-003']
     
@@ -222,7 +223,7 @@ try:
 
     # --- TABLA DE DATOS ---
 
-    data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
+    #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
     st.write(mttr_df)
     st.write(mtbf_df)
