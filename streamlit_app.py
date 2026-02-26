@@ -236,7 +236,7 @@ try:
 
     #with col6:
         st.subheader("MTBF por Máquina")
-        fig4 = px.bar(mttbf_df_end, 
+        fig4 = px.bar(mtbf_df_end, 
                      x="Maquina", 
                      y="MTBF (Horas)", 
                      text_auto='.2f',
