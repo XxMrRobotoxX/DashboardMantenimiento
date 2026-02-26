@@ -75,14 +75,14 @@ try:
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
         mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
-        #mtbf_df = mtbf_df.merge(mtbf_df_2, on = 'Maquina', how = 'left')
+        mtbf_df_end = mtbf_df.merge(mtbf_df_2, on = 'Maquina', how = 'left')
     else:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
         mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
-        #mtbf_df = mtbf_df.merge(mtbf_df_2, on = 'Maquina', how = 'left')
+        mtbf_df_end = mtbf_df.merge(mtbf_df_2, on = 'Maquina', how = 'left')
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -233,7 +233,7 @@ try:
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
     st.write(mttr_df)
-    st.write(mtbf_df)
+    st.write(mtbf_df_end)
     st.write(mtbf_df_2)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
