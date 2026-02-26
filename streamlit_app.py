@@ -235,6 +235,7 @@ try:
     st.write(mttr_df)
     st.write(mtbf_df)
     st.write(mtbf_df_2)
+    st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
