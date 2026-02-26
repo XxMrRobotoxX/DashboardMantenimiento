@@ -57,6 +57,7 @@ try:
         date_end = date_filter[1].strftime('%d/%m/%Y')
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
+        mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007','RB-003']
     
@@ -223,7 +224,7 @@ try:
     data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
     st.write(mttr_df)
-    st.write(data_prog)
+    st.write(mtbf_df)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
