@@ -234,7 +234,19 @@ try:
         #st.title("80-20 Máquina")
         st.plotly_chart(fig3, use_container_width=True)
 
-    #with col6:
+    with col6:
+        st.subheader("MTBF por Máquina")
+        fig = px.bar(mtbf_df_end, 
+                     x="Maquina", 
+                     y="MTBF (Horas)", 
+                     text_auto='.2f',
+                     title="Tiempo Medio de Reparación (Horas)",
+                     color="MTBF (Horas)",
+                     color_continuous_scale="Reds")
+
+        fig.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
+        st.plotly_chart(fig, use_container_width=True)
+    
     #    st.subheader('Datos')
     #    st.dataframe(df_pareto_filtered, use_container_width=True)
         
