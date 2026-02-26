@@ -80,6 +80,9 @@ try:
         mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
+        total_programado = mtbf_df_end['minProg'].sum()
+        total_tm = mtbf_df_end['Tiempo muerto'].sum()
+        total_fallas = mtbf_df_end['CantidadFallas'].sum()
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
@@ -90,6 +93,9 @@ try:
         mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
         mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
         mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
+        total_programado = mtbf_df_end['minProg'].sum()
+        total_tm = mtbf_df_end['Tiempo muerto'].sum()
+        total_fallas = mtbf_df_end['CantidadFallas'].sum()
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
@@ -103,11 +109,15 @@ try:
     # --- VISUALIZACIÓN ---
 
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     total_mttr = mttr_df['MTTR (Horas)'].mean()
     meta_mttr = 1.2
     delta_mttr = total_mttr - meta_mttr
+
+    mtbf_global = ((total_programado/60)-total_tm)/total_fallas
+    meta_mtbf = 120
+    delta_mtbf = mtbf_global - meta_mtbf
     
     with col1:
         st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
@@ -115,9 +125,13 @@ try:
     with col2:
         st.metric("Total Intervenciones", len(df_filtered))
     
-    col3, col4 = st.columns([2, 1])
-
+    col4, col5 = st.columns([2, 1])
+    
     with col3:
+        st.metric("MTBF Global (Horas)", f"{mtbf_global:.2f}", f"{delta_mtbf:.2f}")
+
+
+    with col4:
         st.subheader("MTTR por Máquina")
         fig = px.bar(mttr_df, 
                      x="Maquina", 
@@ -131,7 +145,7 @@ try:
         st.plotly_chart(fig, use_container_width=True)
 
 
-    with col4:
+    with col5:
         mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
         st.subheader("Frecuencia Fallas")
         fig2 = px.bar(mttr_df,
@@ -144,13 +158,13 @@ try:
                      orientation='h')
         st.plotly_chart(fig2, use_container_widht=True)
 
-    col5, col6 = st.columns(2)
+    col6, col7 = st.columns(2)
 
     
 
     #st.write(df_pareto_filtered)
 
-    with col5:
+    with col6:
 
         df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
         lista_maquinas = data_maquinas[['ID']]
@@ -235,7 +249,7 @@ try:
         st.plotly_chart(fig3, use_container_width=True)
 
 
-    with col6:
+    with col7:
 
         st.subheader('MTBF por Máquina')
         
