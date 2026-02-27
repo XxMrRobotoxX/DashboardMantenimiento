@@ -37,10 +37,10 @@ try:
     data_prog = pd.read_csv(SHEET_PROG)
 
     # --- FILTROS EN BARRA LATERAL ---
-    st.sidebar.header("Filtros")
-    maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
-                                      options=data["Maquina"].unique(), 
-                                      default=data["Maquina"].unique())
+    #st.sidebar.header("Filtros")
+    #maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
+    #                                  options=data["Maquina"].unique(), 
+    #                                  default=data["Maquina"].unique())
 
     date_filter = st.date_input(
         'Seleccionar un rango de fecha:',
@@ -178,25 +178,7 @@ try:
         df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
         
         st.subheader("Diagrama de pareto 80-20")
-        #fig3 = px.bar(df_pareto_filtered,
-                      #x='Falla',
-                      #y='Duration_Hrs',
-                      #text_auto='.2f',
-                      #color='Duration_Hrs',
-                      #color_continuous_scale='Reds',
-        #              labels={'Duration_Hrs':'Tiempo muerto','Falla':'Clave de Falla'}
-        #             )
 
-        #fig3.add_trace(go.Scatter(
-        #    x=df_pareto_filtered['Falla'],
-        #    y=df_pareto_filtered['PorcentajeAcum']
-        #))
-
-        #fig3.update_layout(
-        #    yaxis2=dict(title='Porcentaje Acumulado', overlaying='y', side='right', range=[0, 105])
-        #)
-        
-        #st.plotly_chart(fig3, use_container_width=True)
         fig3 = go.Figure()
         
         # Añadir Barras (Eje Y primario)
@@ -244,8 +226,6 @@ try:
             template='plotly_dark' # Estilo oscuro para que combine con tu imagen
         )
         
-        # 4. Mostrar en Streamlit
-        #st.title("80-20 Máquina")
         st.plotly_chart(fig3, use_container_width=True)
 
 
@@ -269,23 +249,6 @@ try:
             )
         )
         st.plotly_chart(fig4, use_container_width=True)
-        
-
-    #with col6:
-        #st.subheader("MTBF por Máquina")
-        #fig4 = px.bar(mtbf_df_end, 
-        #             x="Maquina", 
-        #             y="MTBF (Horas)", 
-        #             text_auto='.2f',
-        #             title="Tiempo medio entre fallas (Horas)",
-        #             color="MTBF (Horas)",
-        #             color_continuous_scale="Reds")
-
-        #fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
-        #st.plotly_chart(fig4, use_container_width=True)
-    
-    #    st.subheader('Datos')
-    #    st.dataframe(df_pareto_filtered, use_container_width=True)
         
 
     # --- TABLA DE DATOS ---
