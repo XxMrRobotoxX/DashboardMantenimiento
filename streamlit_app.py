@@ -248,6 +248,14 @@ try:
                 )
             )
         )
+
+        fig4.update_layout(
+            title='Tiempo medio entre fallas (Horas)',
+            xaxis=dict(title='Máquina'),
+            yaxis=dict(
+                title='MTBF (Horas)',
+                side='left'
+            )
         st.plotly_chart(fig4, use_container_width=True)
         
 
