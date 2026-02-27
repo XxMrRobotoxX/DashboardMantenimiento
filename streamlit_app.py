@@ -37,10 +37,10 @@ try:
     data_prog = pd.read_csv(SHEET_PROG)
 
     # --- FILTROS EN BARRA LATERAL ---
-    #st.sidebar.header("Filtros")
-    #maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
-    #                                  options=data["Maquina"].unique(), 
-    #                                  default=data["Maquina"].unique())
+    st.sidebar.header("Filtros")
+    maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
+                                      options=data["Maquina"].unique(), 
+                                      default=data["Maquina"].unique())
 
     date_filter = st.date_input(
         'Seleccionar un rango de fecha:',
