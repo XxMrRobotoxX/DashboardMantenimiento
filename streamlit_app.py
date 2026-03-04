@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
 import datetime
+from datetime import datetime
 
 # Actualizar la aplicación cada 5 minutos (300,000 milisegundos)
 count = st_autorefresh(interval=300000, key="datarefresh")
