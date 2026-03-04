@@ -268,6 +268,7 @@ try:
     #st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
+        st.write(df_filtered_mtbf)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
