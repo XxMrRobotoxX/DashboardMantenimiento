@@ -59,6 +59,9 @@ try:
         
     else:
         date_start = date_filter[0].strftime('%d/%m/%Y')
+        dia = date_filter[0].day
+        mes = date_filter[0].month
+        año = date_filter[0].year
         date_end = date_filter[1].strftime('%d/%m/%Y')
         date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
@@ -266,9 +269,8 @@ try:
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
 
     st.write(date_start)
-    st.write(date_start.day)
-    st.write(date_start.month)
-    st.write(date_start.year)
+    st.write(dia)
+    st.write(mes)
     st.write(date_end)
     st.write(date_max)
     #st.write(mtbf_df_end)
