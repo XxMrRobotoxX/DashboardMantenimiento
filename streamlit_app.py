@@ -264,8 +264,8 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
     
-    st.write(date_start)
-    st.write(date_end)
+    st.write(date_filter[0])
+    st.write(date_filter[1])
     st.write(date_max)
     #st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
