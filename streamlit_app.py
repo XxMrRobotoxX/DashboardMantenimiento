@@ -276,7 +276,7 @@ try:
     st.write(df_filtered['Duration_Hrs'].sum())
     st.write(date_end)
     st.write(date_max)
-    st.write(date_rnd)
+    st.write(type(date_rnd))
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
         st.write(df_filtered_mtbf)
