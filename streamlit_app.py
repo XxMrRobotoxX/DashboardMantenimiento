@@ -272,7 +272,7 @@ try:
     
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
-        st.write(df_filtered_mtbf)
+        st.write(mtbf_df_end)
         st.write(mttr_df)
 
 except Exception as e:
