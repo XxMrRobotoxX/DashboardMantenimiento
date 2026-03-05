@@ -27,7 +27,7 @@ def load_data(url):
     df['Start_DT'] = pd.to_datetime((df['FechaInicio'] + ' ' + df['HoraInicio']), format='%d/%m/%Y %H:%M')
     df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
 
-    df['FechaInicio_DT'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y')
+    df['FechaInicio_dt'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y')
     
     # Calcular duración en horas (Tiempo de reparación)
     df['Duration_Hrs'] = (df['End_DT'] - df['Start_DT']).dt.total_seconds() / 3600
@@ -39,7 +39,7 @@ try:
     data_maquinas = pd.read_csv(SHEET_MAQUINAS)
     data_prog = pd.read_csv(SHEET_PROG)
 
-    data_prog['Fecha_DT'] = pd.to_datetime(data_prog['Fecha'])
+    data_prog['Fecha_dt'] = pd.to_datetime(data_prog['Fecha'], format = '%d/%m/%Y')
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
@@ -57,8 +57,8 @@ try:
     if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-        date_max = data_prog['Fecha_DT'].max()
-        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['Start_DT'].between(data_prog['Fecha_DT'].min(),date_max,inclusive='both'))]
+        date_max = data_prog['Fecha'].max()
+        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['Start_DT'].between(data_prog['Fecha'].min(),date_max,inclusive='both'))]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
     else:
@@ -67,11 +67,12 @@ try:
         mes = date_filter[1].month
         año = date_filter[1].year
         date_end = date_filter[1].strftime('%d/%m/%Y')
-        date_max = data_prog['Fecha_DT'].max()
+        date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
-        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_DT'].between(datetime.strptime(date_start, '%d/%m/%Y'),datetime.strptime(date_end, '%d/%m/%Y'),inclusive='both'))]
-        df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_DT'].between(datetime.strptime(date_start, '%d/%m/%Y'),datetime.strptime(date_max, '%d/%m/%Y'),inclusive='both'))]
-        mtbf_df = data_prog[data_prog['Fecha_DT'].between(datetime.strptime(date_start, '%d/%m/%Y'),datetime.strptime(date_end, '%d/%m/%Y'), inclusive = 'both')]
+        df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
+        df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,datetime.strptime(date_max, '%d/%m/%Y'),inclusive='both'))]
+        mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
         mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
