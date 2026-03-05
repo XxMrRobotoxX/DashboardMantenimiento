@@ -66,7 +66,7 @@ try:
         date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
-        data_rnd = df_filtered['FechaInicio'].iloc[0]
+        #data_rnd = df_filtered['FechaInicio'].iloc[0]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_filter[0],date_filter[1],inclusive='both'))]
         df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,datetime.strptime(date_max, '%d/%m/%Y'),inclusive='both'))]
         mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
@@ -276,7 +276,7 @@ try:
     st.write(df_filtered['Duration_Hrs'].sum())
     st.write(date_end)
     st.write(date_max)
-    st.write(date_rnd)
+    #st.write(date_rnd)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
         st.write(df_filtered_mtbf)
