@@ -63,6 +63,7 @@ try:
            (df_filtered['FechaInicio'].between(start_date, end_date))
         df_filtered = df_filtered[mask]
         date_max = data_prog['Fecha'].max()
+        df_filtered_mtbf  = df_filtered[(df_filtered['FechaInicio'].between(date_start,date_max,inclusive='both'))]
         mtbf_mask = data_prog['Fecha'].between(start_date, end_date)
         mtbf_df = data_prog[mtbf_mask].groupby('Maquina')['minProg'].sum()
 
