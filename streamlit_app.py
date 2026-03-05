@@ -117,11 +117,11 @@ try:
 
     #total_mttr = mttr_df['MTTR (Horas)'].mean()
     total_mttr = df_filtered['Duration_Hrs'].sum()/len(df_filtered)
-    meta_mttr = 1.2
+    meta_mttr = 1.3
     delta_mttr = total_mttr - meta_mttr
 
     mtbf_global = ((total_programado/60)-total_tm)/total_fallas
-    meta_mtbf = 120
+    meta_mtbf = 80
     delta_mtbf = mtbf_global - meta_mtbf
     
     with col1:
