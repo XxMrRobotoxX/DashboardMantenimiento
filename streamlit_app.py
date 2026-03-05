@@ -59,9 +59,9 @@ try:
         
     else:
         date_start = date_filter[0].strftime('%d/%m/%Y')
-        dia = date_filter[0].day
-        mes = date_filter[0].month
-        año = date_filter[0].year
+        dia = date_filter[1].day
+        mes = date_filter[1].month
+        año = date_filter[1].year
         date_end = date_filter[1].strftime('%d/%m/%Y')
         date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
