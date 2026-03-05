@@ -85,27 +85,33 @@ try:
 
     crit_filtred = st.toggle('Ver Máquinas Críticas')
 
-        # Unir los minutos programados con las fallas reales
-    mtbf_df_2 = df_filtered.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
-    mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
-    
-    # Asegúrate que mtbf_df (el de minProg) sea DataFrame
-    mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on='Maquina', how='left').fillna(0)
-    
-    # Calcular métricas globales antes de filtrar por críticas si es necesario
-    total_programado = mtbf_df_end['minProg'].sum()
-    total_tm = mtbf_df_end['Tiempo muerto'].sum()
-    total_fallas = mtbf_df_end['CantidadFallas'].sum()
-    
-    # Calcular MTBF por máquina (Solo donde hay fallas para evitar división por cero)
-    mtbf_df_end['MTBF (Horas)'] = 0.0
-    mask = mtbf_df_end['CantidadFallas'] > 0
-    mtbf_df_end.loc[mask, 'MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - mtbf_df_end['Tiempo muerto']) / mtbf_df_end['CantidadFallas']
-    
-    # Filtrar por máquinas críticas si el toggle está activo
-    if crit_filtred:
-        mtbf_df_end = mtbf_df_end[mtbf_df_end["Maquina"].isin(criticas)]
-        mttr_df = mttr_df[mttr_df["Maquina"].isin(criticas)]
+     if crit_filtred:
+        df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
+        mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count', 'sum']).reset_index()
+        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas",'Tiempo Muerto']
+        mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
+        mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
+        mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
+        mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
+        total_programado = mtbf_df_end['minProg'].sum()
+        total_tm = mtbf_df_end['Tiempo muerto'].sum()
+        total_fallas = mtbf_df_end['CantidadFallas'].sum()
+        mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
+        mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
+        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
+    else:
+        mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
+        mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
+        mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
+        mtbf_df_2 = df_filtered_mtbf.groupby('Maquina')['Duration_Hrs'].agg(['sum','count']).reset_index()
+        mtbf_df_2.columns = ['Maquina','Tiempo muerto','CantidadFallas']
+        mtbf_df_end = pd.merge(mtbf_df, mtbf_df_2, on = 'Maquina', how = 'left')
+        total_programado = mtbf_df_end['minProg'].sum()
+        total_tm = mtbf_df_end['Tiempo muerto'].sum()
+        total_fallas = mtbf_df_end['CantidadFallas'].sum()
+        mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
+        mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
+        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
         
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
