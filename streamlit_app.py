@@ -22,8 +22,7 @@ SHEET_PROG = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZcWohnQO0NgCteRK
 
 def load_data(url):
     df = pd.read_csv(url)
-
-    df['FechaInicio_DT'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y', errors = 'coerce')
+    
     # Combinar Fecha y Hora para Inicio y Fin
     df['Start_DT'] = pd.to_datetime((df['FechaInicio'] + ' ' + df['HoraInicio']), format='%d/%m/%Y %H:%M')
     df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
@@ -38,8 +37,6 @@ try:
     data_maquinas = pd.read_csv(SHEET_MAQUINAS)
     data_prog = pd.read_csv(SHEET_PROG)
 
-    data_prog['Fecha_DT'] = pd.to_datetime(data_prog['Fecha'], format='%d/%m/%Y')
-
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
     maquinas = st.sidebar.multiselect("Selecciona Máquina(s):", 
@@ -53,38 +50,33 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
-    if len(date_filter) == 2:
-        # Convertimos a datetime de pandas para comparar
-        start_date = pd.to_datetime(date_filter[0])
-        end_date = pd.to_datetime(date_filter[1])
-        
-        # Filtrar DF principal
-        df_filtered = data[data["Maquina"].isin(maquinas)]
-        df_filtered = df_filtered[
-            (df_filtered["Estatus"] == "Cerrada") & 
-            (df_filtered["CausoParo"] == "Si") & 
-            (df_filtered['FechaInicio_DT'] >= start_date) & 
-            (df_filtered['FechaInicio_DT'] <= end_date)
-        ]
-        
-        # Filtrar DF Programación (MTBF)
-        mtbf_df = data_prog[
-            (data_prog['Fecha_DT'] >= start_date) & 
-            (data_prog['Fecha_DT'] <= end_date)
-        ].groupby('Maquina')['minProg'].sum().reset_index()
-    
-    else:
-        # Si no se ha seleccionado rango completo, mostrar todo o el mes actual
+    if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-        mtbf_df = data_prog.groupby('Maquina')['minProg'].sum().reset_index()
+        date_max = data_prog['Fecha'].max()
+        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['Start_DT'].between(data_prog['Fecha'].min(),date_max,inclusive='both'))]
+        mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
+        
+    else:
+        date_start = date_filter[0].strftime('%d/%m/%Y')
+        dia = date_filter[1].day
+        mes = date_filter[1].month
+        año = date_filter[1].year
+        date_end = date_filter[1].strftime('%d/%m/%Y')
+        date_max = data_prog['Fecha'].max()
+        df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
+        df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,datetime.strptime(date_max, '%d/%m/%Y'),inclusive='both'))]
+        mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
+        mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
     
     # --- CÁLCULO DE MTTR ---
 
     crit_filtred = st.toggle('Ver Máquinas Críticas')
-    
+
     if crit_filtred:
         df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count', 'sum']).reset_index()
@@ -278,12 +270,13 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
 
-    st.write(type(date_start))
-    st.write(type(date_filter[0]))
+    st.write(date_start)
+    st.write(dia)
+    st.write(mes)
     st.write(df_filtered['Duration_Hrs'].sum())
     st.write(date_end)
     st.write(date_max)
-    st.write(type(date_rnd))
+    #st.write(mtbf_df_end)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
         st.write(df_filtered_mtbf)
