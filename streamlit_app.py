@@ -272,6 +272,7 @@ try:
     st.write(date_start)
     st.write(dia)
     st.write(mes)
+    st.write(df_filtered['Duration_Hrs'].sum())
     st.write(date_end)
     st.write(date_max)
     #st.write(mtbf_df_end)
