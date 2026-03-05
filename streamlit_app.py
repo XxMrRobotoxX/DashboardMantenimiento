@@ -116,7 +116,8 @@ try:
 
     col1, col2, col3 = st.columns(3)
 
-    total_mttr = mttr_df['MTTR (Horas)'].mean()
+    #total_mttr = mttr_df['MTTR (Horas)'].mean()
+    total_mttr = df_filtered['Duration_Hrs'].sum()/len(df_filtered)
     meta_mttr = 1.2
     delta_mttr = total_mttr - meta_mttr
 
