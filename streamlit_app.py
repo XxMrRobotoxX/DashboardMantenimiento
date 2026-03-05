@@ -58,10 +58,7 @@ try:
         end_date = pd.to_datetime(end_date)
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
-        mask = (df_filtered["Estatus"] == "Cerrada") & \
-           (df_filtered["CausoParo"] == "Si") & \
-           (df_filtered['FechaInicio'].between(start_date, end_date))
-        df_filtered = df_filtered[mask]
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
         date_max = data_prog['Fecha'].max()
         df_filtered_mtbf  = df_filtered[(df_filtered['FechaInicio'].between(date_start,date_max,inclusive='both'))]
         mtbf_mask = data_prog['Fecha'].between(start_date, end_date)
