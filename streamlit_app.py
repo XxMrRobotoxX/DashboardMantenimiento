@@ -50,31 +50,26 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
-    data_prog['Fecha'] = pd.to_datetime(data_prog['Fecha'])
-
-    if(len(date_filter) == 2):
-        start_date, end_date = date_filter
-        start_date = pd.to_datetime(start_date)
-        end_date = pd.to_datetime(end_date)
-        df_filtered = data[data["Maquina"].isin(maquinas)]
-        df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
-        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
-        date_max = data_prog['Fecha'].max()
-        df_filtered_mtbf  = df_filtered[(df_filtered['FechaInicio'].between(date_start,date_max,inclusive='both'))]
-        mtbf_mask = data_prog['Fecha'].between(start_date, end_date)
-        mtbf_df = data_prog[mtbf_mask].groupby('Maquina')['minProg'].sum()
-
-    elif(len(date_filter) == 1):
-        st.warning("Por favor, selecciona la fecha final.")
-        st.stop()
-
-    else:
+    if (date_filter == ()):
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha'].max()
         df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['Start_DT'].between(data_prog['Fecha'].min(),date_max,inclusive='both'))]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
+    else:
+        date_start = date_filter[0].strftime('%d/%m/%Y')
+        dia = date_filter[1].day
+        mes = date_filter[1].month
+        año = date_filter[1].year
+        date_end = date_filter[1].strftime('%d/%m/%Y')
+        date_max = data_prog['Fecha'].max()
+        df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
+        df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,date_end,inclusive='both'))]
+        df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio'].between(date_start,datetime.strptime(date_max, '%d/%m/%Y'),inclusive='both'))]
+        mtbf_df = data_prog[data_prog['Fecha'].between(date_start, date_end, inclusive = 'both')]
+        mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
     
