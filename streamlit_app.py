@@ -271,7 +271,7 @@ try:
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
 
     st.write(type(date_start))
-    st.write(type(date_filter[0])
+    st.write(type(date_filter[0]))
     st.write(df_filtered['Duration_Hrs'].sum())
     st.write(date_end)
     st.write(date_max)
