@@ -58,11 +58,11 @@ try:
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
         
     else:
-        date_start = date_filter[0].strftime('%d/%m/%Y')
+        date_start = date_filter[0]
         dia = date_filter[1].day
         mes = date_filter[1].month
         año = date_filter[1].year
-        date_end = date_filter[1].strftime('%d/%m/%Y')
+        date_end = date_filter[1]
         date_max = data_prog['Fecha'].max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered['FechaInicio'] = pd.to_datetime(df_filtered['FechaInicio'], format = '%d/%m/%Y')
