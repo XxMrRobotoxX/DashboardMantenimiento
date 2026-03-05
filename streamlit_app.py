@@ -55,7 +55,7 @@ try:
         format="DD/MM/YYYY")
 
     if (len(date_filter) == 2):
-        date_max = data_prog['Fecha'].dt.date.max()
+        date_max = data_prog['Fecha_dt'].dt.date.max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_filter[1])]
         df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
@@ -65,8 +65,8 @@ try:
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
-        date_max = data_prog['Fecha'].dt.date.max()
-        date_min = data_prog['Fecha'].dt.date.min()
+        date_max = data_prog['Fecha_dt'].dt.date.max()
+        date_min = data_prog['Fecha_dt'].dt.date.min()
         df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= data_min) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
 
