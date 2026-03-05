@@ -50,7 +50,7 @@ try:
         max_value=None,
         format="DD/MM/YYYY")
 
-    data_prog['Fecha'] = dp.to_datetime(data_prog['Fecha'])
+    data_prog['Fecha'] = pd.to_datetime(data_prog['Fecha'])
 
     if(len(date_filter) == 2):
         start_date, end_date = date_filter
