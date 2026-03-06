@@ -67,7 +67,7 @@ try:
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha_dt'].dt.date.max()
         date_min = data_prog['Fecha_dt'].dt.date.min()
-        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= data_min) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
+        df_filtered_mtbf = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_min) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-004','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
