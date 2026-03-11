@@ -239,20 +239,7 @@ try:
         cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         cant_falla_df = cant_falla_df.groupby('Falla')['Falla'].agg(['count'])
         cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
-        #st.write(cant_falla_df)
-        fig5 = px.bar(cant_falla_df,
-                      x="count",
-                      y="Falla",
-                      text_auto='.0f',
-                      title="Cantidad de fallas por Máquina",
-                      color="count",
-                      color_continuous_scale="Reds",
-                      orientation='h')
-        
-        # Ajustes de estabilidad
-        fig5.update_layout(yaxis={'categoryorder':'total ascending'}, height=400)
-        
-        st.plotly_chart(fig5, use_container_width=True)
+        st.write(cant_falla_df)
 
     col8, col9 = st.columns(2)
 
