@@ -250,7 +250,7 @@ try:
                      color="count",
                      color_continuous_scale="Reds",
                      orientation='h')
-        st.plotly_chart(fig5, use_container_widht=True)
+        st.plotly_chart(fig5, use_container_width=True)
 
     col8, col9 = st.columns(2)
 
