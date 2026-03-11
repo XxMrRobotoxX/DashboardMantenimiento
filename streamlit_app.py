@@ -236,7 +236,7 @@ try:
 
     with col7:
 
-        cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla'].agg(['count'])
+        cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla']).agg(['count'])
         st.subheader("Frecuencia Fallas por Máquina")
         fig5 = px.bar(cant_falla_df,
                      x="count",
