@@ -170,8 +170,7 @@ try:
     #st.write(df_pareto_filtered)
 
 
-    maquina_pareto = st.selectbox(
-            "Seleccionar Máquina", options = lista_maquinas)
+maquina_pareto = st.selectbox("Seleccionar Máquina", options = lista_maquinas)
     
     with col6:
 
