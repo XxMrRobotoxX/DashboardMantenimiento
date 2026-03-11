@@ -277,8 +277,9 @@ try:
             go.Bar(
                 x=mtbf_df_end['Maquina'],
                 y=mtbf_df_end['MTBF (Horas)'],
-                text_auto='.2f',
                 name='MTBF (Horas)',
+                text=mtbf_df_end['MTBF (Horas)'],
+                textposition='auto',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
                     colorscale='Reds',
