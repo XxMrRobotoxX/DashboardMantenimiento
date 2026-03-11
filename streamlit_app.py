@@ -144,12 +144,12 @@ try:
                      text_auto='.2f',
                      title="Tiempo Medio de Reparación (Horas)",
                      color="MTTR (Horas)",
-                     range_color = [0, 1.2],
+                     range_color = [0, 1.3],
                      color_continuous_scale="Reds")
 
         fig.update_layout(coloraxis_colorbar=dict(
-            tickvals=[0, 0.4, 0.8, 1.2],
-            ticktext=["0", "0.4", "0.8", "> 1.2 (Alerta)"]
+            tickvals=[0, 0.65, 1.3],
+            ticktext=["0", "0.65", "> 1.3 (Alerta)"]
         ))
 
         fig.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
