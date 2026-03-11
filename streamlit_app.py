@@ -235,7 +235,7 @@ try:
 
 
     with col7:
-        st.write(df_pareto_filtered)
+        st.write(df_pareto)
 
     col8, col9 = st.columns(2)
 
