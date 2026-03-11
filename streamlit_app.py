@@ -236,7 +236,8 @@ try:
 
     with col7:
         #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
-        st.write(df_pareto)
+        cant_falla_df = df_pareto.groupby('Falla')['Falla'].agg(['count'])
+        st.write(cant_falla_df)
 
     col8, col9 = st.columns(2)
 
