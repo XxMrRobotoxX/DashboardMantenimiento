@@ -294,6 +294,7 @@ try:
                 side='left'
             )
         )
+        fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
         st.plotly_chart(fig4, use_container_width=True)
 
 
