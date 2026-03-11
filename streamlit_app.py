@@ -236,17 +236,8 @@ try:
 
     with col7:
 
-        #cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla']).agg(['count'])
-        st.subheader("Frecuencia Fallas por Máquina")
-        fig5 = px.bar(,
-                     x="",
-                     y="",
-                     text_auto='.0f',
-                     title="Cantidad de fallas por Máquina",
-                     color="count",
-                     color_continuous_scale="Reds",
-                     orientation='h')
-        st.plotly_chart(fig5, use_container_widht=True)
+        cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla']).agg(['count'])
+        st.write(cant_falla_df)
 
     col8, col9 = st.columns(2)
 
