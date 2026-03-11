@@ -236,6 +236,7 @@ try:
 
     with col7:
         #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
+        cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         cant_falla_df = df_pareto.groupby('Falla')['Falla'].agg(['count'])
         st.write(cant_falla_df)
 
