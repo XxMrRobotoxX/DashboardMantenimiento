@@ -163,16 +163,14 @@ try:
                      orientation='h')
         st.plotly_chart(fig2, use_container_widht=True)
 
-    col6, col7 = st.columns(2)
-
-    
-
     #st.write(df_pareto_filtered)
 
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
     maquina_pareto = st.selectbox(
         "Seleccionar Máquina", options = lista_maquinas)
+
+    col6, col7 = st.columns(2)
     
     with col6:
     
