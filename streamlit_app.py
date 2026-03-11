@@ -297,7 +297,7 @@ try:
                     color=mtbf_df_end['MTBF (Horas)'],
                     colorscale='Reds_r',
                     cmin=80,
-                    cmax=240,
+                    cmax=160,
                     showscale=True
                 )
             )
@@ -313,8 +313,8 @@ try:
         )
 
         fig4.update_traces(marker_colorbar=dict(
-            tickvals=[80, 120, 160, 200, 240],
-            ticktext=["< 80 (Crítico)", "120", "160", "200", "240"]
+            tickvals=[80, 100, 120, 140, 160],
+            ticktext=["< 80 (Crítico)", "100", "120", "140", "160"]
         ))
         
         fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
