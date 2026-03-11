@@ -171,7 +171,8 @@ try:
 
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
-    maquina_pareto = st.selectbox("Seleccionar Máquina", options = lista_maquinas)
+    maquina_pareto = st.selectbox(
+        "Seleccionar Máquina", options = lista_maquinas)
     
     with col6:
     
