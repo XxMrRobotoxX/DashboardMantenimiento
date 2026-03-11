@@ -295,9 +295,10 @@ try:
                 texttemplate='%{y:.2f}',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
-                    range_color = [80, 240],
                     colorscale='Reds_r',
-                    showscale=False
+                    cmin=80,
+                    cmax=240,
+                    showscale=True
                 )
             )
         )
@@ -309,11 +310,13 @@ try:
                 title='MTBF (Horas)',
                 side='left'
             ),
-            coloraxis_colorbar=dict(
-                tickvals=[80, 100, 120, 140, 160],
-                ticktext=["< 80 (Alerta)", "100", "120", "140", "160"]
-            )
         )
+
+        fig4.update_traces(marker_colorbar=dict(
+            tickvals=[80, 120, 160, 200, 240],
+            ticktext=["< 80 (Crítico)", "120", "160", "200", "240"]
+        ))
+        
         fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
         st.plotly_chart(fig4, use_container_width=True)
 
