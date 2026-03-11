@@ -169,14 +169,16 @@ try:
 
     #st.write(df_pareto_filtered)
 
+
+    maquina_pareto = st.selectbox(
+            "Seleccionar Máquina", options = lista_maquinas)
+    
     with col6:
 
         df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
         lista_maquinas = data_maquinas[['ID']]
         #lista_maquinas = lista_maquinas['Maquina'].unique()
         #st.write(lista_maquinas)
-        maquina_pareto = st.selectbox(
-            "Seleccionar Máquina", options = lista_maquinas)
     
         df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
