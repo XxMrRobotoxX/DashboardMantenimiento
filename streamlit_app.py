@@ -295,7 +295,8 @@ try:
                 texttemplate='%{y:.2f}',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
-                    colorscale='Reds',
+                    range_color = [80, 240],
+                    colorscale='Reds_r',
                     showscale=False
                 )
             )
@@ -307,6 +308,10 @@ try:
             yaxis=dict(
                 title='MTBF (Horas)',
                 side='left'
+            ),
+            coloraxis_colorbar=dict(
+                tickvals=[80, 100, 120, 140, 160],
+                ticktext=["< 80 (Alerta)", "100", "120", "140", "160"]
             )
         )
         fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
