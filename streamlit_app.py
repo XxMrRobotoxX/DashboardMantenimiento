@@ -102,7 +102,7 @@ try:
         total_fallas = mtbf_df_end['CantidadFallas'].sum()
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
-        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
+        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
         
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
@@ -236,6 +236,21 @@ try:
 
     with col7:
 
+        cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla'].agg(['count'])
+        st.subheader("Frecuencia Fallas por Máquina")
+        fig5 = px.bar(cant_falla_df,
+                     x="count",
+                     y="Falla",
+                     text_auto='.0f',
+                     title="Cantidad de fallas por Máquina",
+                     color="count",
+                     color_continuous_scale="Reds",
+                     orientation='h')
+        st.plotly_chart(fig5, use_container_widht=True)
+
+    col8, col9 = st.columns(2)
+
+    with col8:
         st.subheader('MTBF por Máquina')
         
         fig4 = go.Figure()
@@ -263,6 +278,9 @@ try:
             )
         )
         st.plotly_chart(fig4, use_container_width=True)
+
+
+    
         
 
     # --- TABLA DE DATOS ---
