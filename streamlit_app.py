@@ -235,9 +235,7 @@ try:
 
 
     with col7:
-
-        cant_falla_df = df_pareto_filtered.groupby(['Maquina','Falla']).agg(['count'])
-        st.write(cant_falla_df)
+        st.write(df_pareto_filtered)
 
     col8, col9 = st.columns(2)
 
