@@ -280,7 +280,7 @@ try:
                 name='MTBF (Horas)',
                 text=mtbf_df_end['MTBF (Horas)'],
                 textposition='auto',
-                text_template='%{y:.2f}',
+                texttemplate='%{y:.2f}',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
                     colorscale='Reds',
