@@ -238,8 +238,7 @@ try:
         #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
         cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         cant_falla_df = cant_falla_df.groupby('Falla')['Falla'].agg(['count'])
-        cant_falla_df.columns = ['Falla','Frecuencia']
-        cant_falla_df = cant_falla_df.sort_values(by='Frecuencia', ascending = False)
+        cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
         st.write(cant_falla_df)
 
     col8, col9 = st.columns(2)
