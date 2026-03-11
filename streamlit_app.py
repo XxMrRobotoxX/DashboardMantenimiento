@@ -237,7 +237,8 @@ try:
     with col7:
         #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
         cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-        cant_falla_df = cant_falla_df.groupby('Falla')['Falla'].agg(['count'])
+        cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
+        cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
         cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
         #st.write(cant_falla_df)
         st.subheader('Frecuencia de fallas por Máquina')
