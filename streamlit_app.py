@@ -89,7 +89,7 @@ try:
         total_fallas = mtbf_df_end['CantidadFallas'].sum()
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
-        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
+        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
     else:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
@@ -102,7 +102,7 @@ try:
         total_fallas = mtbf_df_end['CantidadFallas'].sum()
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
-        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =False)
+        mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
         
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
@@ -163,20 +163,16 @@ try:
                      orientation='h')
         st.plotly_chart(fig2, use_container_widht=True)
 
-    col6, col7 = st.columns(2)
-
-    
-
     #st.write(df_pareto_filtered)
 
-    with col6:
+    df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
+    lista_maquinas = data_maquinas[['ID']]
+    maquina_pareto = st.selectbox(
+        "Seleccionar Máquina", options = lista_maquinas)
 
-        df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
-        lista_maquinas = data_maquinas[['ID']]
-        #lista_maquinas = lista_maquinas['Maquina'].unique()
-        #st.write(lista_maquinas)
-        maquina_pareto = st.selectbox(
-            "Seleccionar Máquina", options = lista_maquinas)
+    col6, col7 = st.columns(2)
+    
+    with col6:
     
         df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
@@ -192,6 +188,9 @@ try:
                 x=df_pareto_filtered['Falla'],
                 y=df_pareto_filtered['Duration_Hrs'],
                 name='Duración (Hrs)',
+                text = df_pareto_filtered['Duration_Hrs'],
+                textposition = 'auto',
+                texttemplate = '%{y:.2f}',
                 marker=dict(
                     color=df_pareto_filtered['Duration_Hrs'],
                     colorscale='Reds',
@@ -235,7 +234,46 @@ try:
 
 
     with col7:
+        #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
+        cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+        cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
+        cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
+        cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
+        #st.write(cant_falla_df)
+        st.subheader('Frecuencia de fallas por Máquina')
+        
+        fig5 = go.Figure()
+        
+        # Añadir Barras (Eje Y primario)
+        fig5.add_trace(
+            go.Bar(
+                x=cant_falla_df['Falla'],
+                y=cant_falla_df['count'],
+                name='Frecuencia de fallas por Máquina',
+                text = cant_falla_df['count'],
+                textposition = 'auto',
+                texttemplate = '%{y:.2f}',
+                marker=dict(
+                    color=cant_falla_df['count'],
+                    colorscale='Reds',
+                    showscale=False
+                )
+            )
+        )
 
+        fig5.update_layout(
+            title='Frecuencia de fallas por Máquina',
+            xaxis=dict(title='Máquina'),
+            yaxis=dict(
+                title='Cantidad de fallas',
+                side='left'
+            )
+        )
+        st.plotly_chart(fig5, use_container_width=True)
+        
+    col8, col9 = st.columns(2)
+
+    with col8:
         st.subheader('MTBF por Máquina')
         
         fig4 = go.Figure()
@@ -246,6 +284,9 @@ try:
                 x=mtbf_df_end['Maquina'],
                 y=mtbf_df_end['MTBF (Horas)'],
                 name='MTBF (Horas)',
+                text=mtbf_df_end['MTBF (Horas)'],
+                textposition='auto',
+                texttemplate='%{y:.2f}',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
                     colorscale='Reds',
@@ -262,7 +303,11 @@ try:
                 side='left'
             )
         )
+        fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
         st.plotly_chart(fig4, use_container_width=True)
+
+
+    
         
 
     # --- TABLA DE DATOS ---
@@ -272,8 +317,6 @@ try:
     
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
-        st.write(mtbf_df_end)
-        st.write(mttr_df)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
