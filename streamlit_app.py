@@ -57,6 +57,7 @@ try:
     if (len(date_filter) == 2):
         date_max = data_prog['Fecha_dt'].dt.date.max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered['Semana'] = df_filtered['FechaInicio_dt'].dt.isocalendar().week
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_filter[1])]
         df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
         mtbf_df = data_prog[(data_prog['Fecha_dt'].dt.date >= date_filter[0]) & (data_prog['Fecha_dt'].dt.date <= date_filter[1])]
