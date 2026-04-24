@@ -306,7 +306,7 @@ try:
 
         options = st.multiselect(
             "Selecciona las semanas a graficar:",
-            df_filtered['Semana'].unique()
+            data['Semana'].unique()
         )
     
         
