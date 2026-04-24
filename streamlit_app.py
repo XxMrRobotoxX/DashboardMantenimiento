@@ -65,6 +65,7 @@ try:
         
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered['Semana'] = df_filtered['FechaInicio_dt'].dt.isocalendar().week
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha_dt'].dt.date.max()
         date_min = data_prog['Fecha_dt'].dt.date.min()
