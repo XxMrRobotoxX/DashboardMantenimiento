@@ -325,14 +325,10 @@ try:
             go.Bar(
                 x=df_Week['Semana'],
                 y=df_week['mean'],
-                name='MTTR por semana',
-                marker=dict(
-                    color=cant_falla_df['count'],
-                    colorscale='Reds',
-                    showscale=False
+                name='MTTR por semana'
                 )
-            )
         )
+
 
         fig6.update_layout(
             title='MTTR por semana',
