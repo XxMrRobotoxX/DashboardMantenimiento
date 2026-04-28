@@ -316,6 +316,11 @@ try:
         )
         df_week = df_week[df_week['Semana'].isin(options)]
 
+        cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+        cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
+        cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
+        cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
+        
         st.subheader('MTTR por Semana')
 
         fig6 = go.Figure()
