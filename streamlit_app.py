@@ -65,6 +65,7 @@ try:
         mtbf_df = data_prog[(data_prog['Fecha_dt'].dt.date >= date_filter[0]) & (data_prog['Fecha_dt'].dt.date <= date_filter[1])]
         mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
         
+        
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
         df_filtered_week = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
@@ -75,6 +76,7 @@ try:
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-004','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
+    df_week_mtbf = data_prog.groupby('Semana')['minProg'].sum()
     
     # --- CÁLCULO DE MTTR ---
 
@@ -368,7 +370,7 @@ try:
     
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
-        st.write(df_week)
+        st.write(df_week_mtbf)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
