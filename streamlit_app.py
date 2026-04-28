@@ -81,8 +81,8 @@ try:
     crit_filtred = st.toggle('Ver Máquinas Principales')
 
     if crit_filtred:
-        df_filtered = df_filtered[df_filtered_week["Maquina"].isin(criticas)]
-        df_filtered_week = df_filtered_week[df_filtered["Maquina"].isin(criticas)]
+        df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
+        df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count', 'sum']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas",'Tiempo Muerto']
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
