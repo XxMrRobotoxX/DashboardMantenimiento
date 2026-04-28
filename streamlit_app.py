@@ -324,9 +324,8 @@ try:
         fig6.add_trace(
             go.Bar(
                 x=df_Week['Semana'],
-                y=df_week['mean'],
-                name='MTTR por semana'
-                )
+                y=df_week['mean']
+            )
         )
 
 
