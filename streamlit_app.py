@@ -28,7 +28,7 @@ def load_data(url):
     df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
 
     df['FechaInicio_dt'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y')
-    df['Semana'] = df['FechaInicio_dt'].dt.isocalendar().week
+    df['Semana'] = df['FechaInicio_dt'].dt.strftime('%U')
     
     # Calcular duración en horas (Tiempo de reparación)
     df['Duration_Hrs'] = (df['End_DT'] - df['Start_DT']).dt.total_seconds() / 3600
