@@ -318,26 +318,7 @@ try:
 
         st.subheader('MTTR por Semana')
         
-        fig6 = go.Figure()
         
-        # Añadir Barras (Eje Y primario)
-        fig6.add_trace(
-            go.Bar(
-                x=df_Week['Semana'],
-                y=df_week['mean']
-            )
-        )
-
-
-        fig6.update_layout(
-            title='MTTR por semana',
-            xaxis=dict(title='Semana'),
-            yaxis=dict(
-                title='MTTR (Horas)',
-                side='left'
-            )
-        )
-        st.plotly_chart(fig6, use_container_width=True)
     
         
 
