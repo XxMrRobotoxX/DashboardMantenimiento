@@ -307,7 +307,7 @@ try:
         options = st.multiselect(
             "Selecciona las semanas a graficar:",
             data['Semana'].unique(),
-            default = [max(data['Semana'])]
+            default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
         )
     
         
