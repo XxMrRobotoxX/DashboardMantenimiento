@@ -98,6 +98,8 @@ try:
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
         df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
+        df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
     else:
         df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -113,6 +115,8 @@ try:
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
         df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
+        df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -322,7 +326,7 @@ try:
                 data['Semana'].unique(),
                 default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
             )
-            df_week = df_week[df_week['Semana'].isin(options)]
+            df_week_end = df_week_end[df_week_end['Semana'].isin(options)]
             
             st.subheader('MTTR por Semana')
     
@@ -331,14 +335,14 @@ try:
             # Añadir Barras (Eje Y primario)
             fig6.add_trace(
                 go.Bar(
-                    x = df_week['Semana'],
-                    y = df_week['mean'],
+                    x = df_week_end['Semana'],
+                    y = df_week_end['MTTR'],
                     name='MTTR (Horas)',
-                    text=df_week['mean'],
+                    text=df_week_end['MTTR'],
                     textposition='auto',
                     texttemplate='%{y:.2f}',
                     marker=dict(
-                        color=df_week['mean'],
+                        color=df_week_end['MTTR'],
                         colorscale='Reds',
                         showscale=False
                     )
@@ -358,7 +362,7 @@ try:
             st.plotly_chart(fig6, use_container_width=True)
 
         with tab2:
-            st.write(df_week)
+            st.write(df_week_end)
         
     
         
