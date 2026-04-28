@@ -315,6 +315,34 @@ try:
             default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
         )
         df_week = df_week[df_week['Semana'].isin(options)]
+
+        st.subheader('MTTR por Semana')
+        
+        fig6 = go.Figure()
+        
+        # Añadir Barras (Eje Y primario)
+        fig5.add_trace(
+            go.Bar(
+                x=df_Week['Semana'],
+                y=df_week['mean'],
+                name='MTTR por semana',
+                marker=dict(
+                    color=cant_falla_df['count'],
+                    colorscale='Reds',
+                    showscale=False
+                )
+            )
+        )
+
+        fig5.update_layout(
+            title='MTTR por semana',
+            xaxis=dict(title='Semana'),
+            yaxis=dict(
+                title='MTTR (Horas)',
+                side='left'
+            )
+        )
+        st.plotly_chart(fig5, use_container_width=True)
     
         
 
