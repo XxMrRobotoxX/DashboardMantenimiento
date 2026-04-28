@@ -314,6 +314,7 @@ try:
             data['Semana'].unique(),
             default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
         )
+        df_week = df_week[df_week['Semana'].isin(options)]
     
         
 
