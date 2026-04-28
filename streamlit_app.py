@@ -76,7 +76,7 @@ try:
     
     # --- CÁLCULO DE MTTR ---
 
-    crit_filtred = st.toggle('Ver Máquinas Críticas')
+    crit_filtred = st.toggle('Ver Máquinas Principales')
 
     if crit_filtred:
         df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
@@ -92,6 +92,7 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
+        df_week = df_filtered.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
     else:
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
@@ -105,7 +106,7 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
-        
+        df_week = df_filtered.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -319,6 +320,7 @@ try:
     
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
+        st.write(df_week)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
