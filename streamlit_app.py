@@ -309,45 +309,54 @@ try:
 
     with col9:
 
-        options = st.multiselect(
-            "Selecciona las semanas a graficar:",
-            data['Semana'].unique(),
-            default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
+        tab1, tab2 = st.tabs(
+            ['MTTR', 'MTBF'], default = 'MTTR'
         )
-        df_week = df_week[df_week['Semana'].isin(options)]
-        
-        st.subheader('MTTR por Semana')
 
-        fig6 = go.Figure()
-        
-        # Añadir Barras (Eje Y primario)
-        fig6.add_trace(
-            go.Bar(
-                x = df_week['Semana'],
-                y = df_week['mean'],
-                name='MTTR (Horas)',
-                text=df_week['mean'],
-                textposition='auto',
-                texttemplate='%{y:.2f}',
-                marker=dict(
-                    color=df_week['mean'],
-                    colorscale='Reds',
-                    showscale=False
+        with tab1:
+
+            options = st.multiselect(
+                "Selecciona las semanas a graficar:",
+                data['Semana'].unique(),
+                default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
+            )
+            df_week = df_week[df_week['Semana'].isin(options)]
+            
+            st.subheader('MTTR por Semana')
+    
+            fig6 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig6.add_trace(
+                go.Bar(
+                    x = df_week['Semana'],
+                    y = df_week['mean'],
+                    name='MTTR (Horas)',
+                    text=df_week['mean'],
+                    textposition='auto',
+                    texttemplate='%{y:.2f}',
+                    marker=dict(
+                        color=df_week['mean'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
                 )
             )
-        )
-
-        fig6.update_layout(
-            title='MTTR por semana',
-            xaxis=dict(title='Semana'),
-            yaxis=dict(
-                title='MTTR (Horas)',
-                side='left'
+    
+            fig6.update_layout(
+                title='MTTR por semana',
+                xaxis=dict(title='Semana'),
+                yaxis=dict(
+                    title='MTTR (Horas)',
+                    side='left'
+                )
             )
-        )
+    
+            fig6.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
+            st.plotly_chart(fig6, use_container_width=True)
 
-        fig6.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
-        st.plotly_chart(fig6, use_container_width=True)
+        with tab2:
+            st.write(df_week)
         
     
         
