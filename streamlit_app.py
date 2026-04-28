@@ -328,8 +328,8 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
 
-    #st.write(mtbf_df_end)
-    #st.write(mttr_df)
+    st.write(mtbf_df_end)
+    st.write(mttr_df)
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
 
