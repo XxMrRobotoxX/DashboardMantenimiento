@@ -321,7 +321,7 @@ try:
         fig6 = go.Figure()
         
         # Añadir Barras (Eje Y primario)
-        fig5.add_trace(
+        fig6.add_trace(
             go.Bar(
                 x=df_Week['Semana'],
                 y=df_week['mean'],
@@ -334,7 +334,7 @@ try:
             )
         )
 
-        fig5.update_layout(
+        fig6.update_layout(
             title='MTTR por semana',
             xaxis=dict(title='Semana'),
             yaxis=dict(
