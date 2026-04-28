@@ -321,16 +321,14 @@ try:
             ['MTTR', 'MTBF'], default = 'MTTR'
         )
 
-        with tab1:
-
-            options = st.multiselect(
+        options = st.multiselect(
                 "Selecciona las semanas a graficar:",
                 data['Semana'].unique(),
                 default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
             )
+        
+        with tab1:
             df_week_end = df_week_end[df_week_end['Semana'].isin(options)]
-            
-            st.subheader('MTTR por Semana')
     
             fig6 = go.Figure()
             
@@ -364,7 +362,37 @@ try:
             st.plotly_chart(fig6, use_container_width=True)
 
         with tab2:
-            st.write(df_week_end)
+            fig7 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig7.add_trace(
+                go.Bar(
+                    x = df_week_end['Semana'],
+                    y = df_week_end['MTBF'],
+                    name='MTBF (Horas)',
+                    text=df_week_end['MTBF'],
+                    textposition='auto',
+                    texttemplate='%{y:.2f}',
+                    marker=dict(
+                        color=df_week_end['MTBF'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig7.update_layout(
+                title='MTBF por semana',
+                xaxis=dict(title='Semana'),
+                yaxis=dict(
+                    title='MTBF (Horas)',
+                    side='left'
+                )
+            )
+    
+            fig7.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
+            st.plotly_chart(fig7, use_container_width=True)
+
         
     
         
