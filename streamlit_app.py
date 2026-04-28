@@ -28,7 +28,7 @@ def load_data(url):
     df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
 
     df['FechaInicio_dt'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y')
-    df['Semana'] = df['FechaInicio_dt'].dt.strftime('%U')
+    df['Semana'] = df['FechaInicio_dt'].dt.strftime('%U').astype(int)
     
     # Calcular duración en horas (Tiempo de reparación)
     df['Duration_Hrs'] = (df['End_DT'] - df['Start_DT']).dt.total_seconds() / 3600
@@ -41,7 +41,7 @@ try:
     data_prog = pd.read_csv(SHEET_PROG)
 
     data_prog['Fecha_dt'] = pd.to_datetime(data_prog['Fecha'], format = '%d/%m/%Y')
-    data_prog['Semana'] = data_prog['Fecha_dt'].dt.isocalendar().week
+    data_prog['Semana'] = data_prog['Fecha_dt'].dt.strftime('%U').astype(int)
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
@@ -306,7 +306,8 @@ try:
 
         options = st.multiselect(
             "Selecciona las semanas a graficar:",
-            data['Semana'].unique()
+            data['Semana'].unique(),
+            default = [max(data['Semana'])]
         )
     
         
