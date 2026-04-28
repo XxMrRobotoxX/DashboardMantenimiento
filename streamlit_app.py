@@ -59,6 +59,7 @@ try:
     if (len(date_filter) == 2):
         date_max = data_prog['Fecha_dt'].dt.date.max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered_week = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_filter[1])]
         df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
         mtbf_df = data_prog[(data_prog['Fecha_dt'].dt.date >= date_filter[0]) & (data_prog['Fecha_dt'].dt.date <= date_filter[1])]
@@ -66,6 +67,7 @@ try:
         
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered_week = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha_dt'].dt.date.max()
         date_min = data_prog['Fecha_dt'].dt.date.min()
@@ -79,7 +81,8 @@ try:
     crit_filtred = st.toggle('Ver Máquinas Principales')
 
     if crit_filtred:
-        df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
+        df_filtered = df_filtered[df_filtered_week["Maquina"].isin(criticas)]
+        df_filtered_week = df_filtered_week[df_filtered["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count', 'sum']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas",'Tiempo Muerto']
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
@@ -92,8 +95,9 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
-        df_week = df_filtered.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
     else:
+        df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
@@ -106,7 +110,7 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
-        df_week = df_filtered.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
