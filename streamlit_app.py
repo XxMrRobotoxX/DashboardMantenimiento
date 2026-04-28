@@ -323,6 +323,8 @@ try:
         # Añadir Barras (Eje Y primario)
         fig6.add_trace(
             go.Bar(
+                x = df_week['Semana'],
+                y = df_week['mean']
             )
         )
 
