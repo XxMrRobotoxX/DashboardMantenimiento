@@ -342,7 +342,7 @@ try:
                 side='left'
             )
         )
-        st.plotly_chart(fig5, use_container_width=True)
+        st.plotly_chart(fig6, use_container_width=True)
     
         
 
