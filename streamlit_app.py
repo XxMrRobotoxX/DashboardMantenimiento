@@ -317,7 +317,32 @@ try:
         df_week = df_week[df_week['Semana'].isin(options)]
 
         st.subheader('MTTR por Semana')
+
+        fig6 = go.Figure()
         
+        # Añadir Barras (Eje Y primario)
+        fig6.add_trace(
+            go.Bar(
+                x=cant_falla_df['Falla'],
+                y=cant_falla_df['count'],
+                name='Frecuencia de fallas por Máquina',
+                marker=dict(
+                    color=cant_falla_df['count'],
+                    colorscale='Reds',
+                    showscale=False
+                )
+            )
+        )
+
+        fig6.update_layout(
+            title='Frecuencia de fallas por Máquina',
+            xaxis=dict(title='Máquina'),
+            yaxis=dict(
+                title='Cantidad de fallas',
+                side='left'
+            )
+        )
+        st.plotly_chart(fig6, use_container_width=True)
         
     
         
