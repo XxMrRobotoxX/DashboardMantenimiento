@@ -315,11 +315,6 @@ try:
             default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
         )
         df_week = df_week[df_week['Semana'].isin(options)]
-
-        cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-        cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
-        cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
-        cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
         
         st.subheader('MTTR por Semana')
 
@@ -328,14 +323,6 @@ try:
         # Añadir Barras (Eje Y primario)
         fig6.add_trace(
             go.Bar(
-                x=cant_falla_df['Falla'],
-                y=cant_falla_df['count'],
-                name='Frecuencia de fallas por Máquina',
-                marker=dict(
-                    color=cant_falla_df['count'],
-                    colorscale='Reds',
-                    showscale=False
-                )
             )
         )
 
