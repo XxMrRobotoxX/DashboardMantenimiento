@@ -28,6 +28,7 @@ def load_data(url):
     df['End_DT'] = pd.to_datetime((df['FechaFin'] + ' ' + df['HoraFin']), format='%d/%m/%Y %H:%M')
 
     df['FechaInicio_dt'] = pd.to_datetime(df['FechaInicio'], format = '%d/%m/%Y')
+    df['Semana'] = df['FechaInicio_dt'].dt.strftime('%U').astype(int)
     
     # Calcular duración en horas (Tiempo de reparación)
     df['Duration_Hrs'] = (df['End_DT'] - df['Start_DT']).dt.total_seconds() / 3600
@@ -40,6 +41,7 @@ try:
     data_prog = pd.read_csv(SHEET_PROG)
 
     data_prog['Fecha_dt'] = pd.to_datetime(data_prog['Fecha'], format = '%d/%m/%Y')
+    data_prog['Semana'] = data_prog['Fecha_dt'].dt.strftime('%U').astype(int)
 
     # --- FILTROS EN BARRA LATERAL ---
     st.sidebar.header("Filtros")
@@ -57,13 +59,16 @@ try:
     if (len(date_filter) == 2):
         date_max = data_prog['Fecha_dt'].dt.date.max()
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered_week = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_filter[1])]
         df_filtered_mtbf  = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si") & (df_filtered['FechaInicio_dt'].dt.date >= date_filter[0]) & (df_filtered['FechaInicio_dt'].dt.date <= date_max)]
         mtbf_df = data_prog[(data_prog['Fecha_dt'].dt.date >= date_filter[0]) & (data_prog['Fecha_dt'].dt.date <= date_filter[1])]
         mtbf_df = mtbf_df.groupby('Maquina')['minProg'].sum()
         
+        
     else:
         df_filtered = data[data["Maquina"].isin(maquinas)]
+        df_filtered_week = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         df_filtered = df_filtered[(df_filtered["Estatus"] == "Cerrada") & (df_filtered["CausoParo"] == "Si")]
         date_max = data_prog['Fecha_dt'].dt.date.max()
         date_min = data_prog['Fecha_dt'].dt.date.min()
@@ -71,13 +76,15 @@ try:
         mtbf_df = data_prog.groupby('Maquina')['minProg'].sum()
 
     criticas = ['CL-001','CL-003','CL-004','CL-005','CL-007','CL-009','CL-010','C-123','D-228','D-229','D-232','D-233','D-236','CM-007']
+    df_week_mtbf = data_prog.groupby('Semana')['minProg'].sum()
     
     # --- CÁLCULO DE MTTR ---
 
-    crit_filtred = st.toggle('Ver Máquinas Críticas')
+    crit_filtred = st.toggle('Ver Máquinas Principales')
 
     if crit_filtred:
         df_filtered = df_filtered[df_filtered["Maquina"].isin(criticas)]
+        df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count', 'sum']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas",'Tiempo Muerto']
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
@@ -90,7 +97,12 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
+        df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
+        df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
+        df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
     else:
+        df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
         mttr_df.columns = ["Maquina", "MTTR (Horas)", "Cantidad_Fallas"]
         mttr_df = mttr_df.sort_values(by="MTTR (Horas)", ascending=False)
@@ -103,7 +115,10 @@ try:
         mtbf_df_end = mtbf_df_end.dropna(subset=['CantidadFallas'])
         mtbf_df_end['MTBF (Horas)'] = ((mtbf_df_end['minProg']/60) - (mtbf_df_end['Tiempo muerto'])) / mtbf_df_end['CantidadFallas']
         mtbf_df_end = mtbf_df_end.sort_values(by='MTBF (Horas)', ascending =True)
-        
+        df_week = df_filtered_week.groupby('Semana')['Duration_Hrs'].agg(['mean','count','sum']).reset_index()
+        df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
+        df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
+        df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -144,13 +159,7 @@ try:
                      text_auto='.2f',
                      title="Tiempo Medio de Reparación (Horas)",
                      color="MTTR (Horas)",
-                     range_color = [0, 1.3],
                      color_continuous_scale="Reds")
-
-        fig.update_layout(coloraxis_colorbar=dict(
-            tickvals=[0, 0.65, 1.3],
-            ticktext=["0", "0.65", "> 1.3 (Alerta)"]
-        ))
 
         fig.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
         st.plotly_chart(fig, use_container_width=True)
@@ -169,7 +178,7 @@ try:
                      orientation='h')
         st.plotly_chart(fig2, use_container_width=True)
 
-    #st.write(df_pareto_filtered)
+        #st.write(mttr_df)
 
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
@@ -194,9 +203,6 @@ try:
                 x=df_pareto_filtered['Falla'],
                 y=df_pareto_filtered['Duration_Hrs'],
                 name='Duración (Hrs)',
-                text = df_pareto_filtered['Duration_Hrs'],
-                textposition = 'auto',
-                texttemplate = '%{y:.2f}',
                 marker=dict(
                     color=df_pareto_filtered['Duration_Hrs'],
                     colorscale='Reds',
@@ -256,9 +262,6 @@ try:
                 x=cant_falla_df['Falla'],
                 y=cant_falla_df['count'],
                 name='Frecuencia de fallas por Máquina',
-                text = cant_falla_df['count'],
-                textposition = 'auto',
-                texttemplate = '%{y:.2f}',
                 marker=dict(
                     color=cant_falla_df['count'],
                     colorscale='Reds',
@@ -295,10 +298,8 @@ try:
                 texttemplate='%{y:.2f}',
                 marker=dict(
                     color=mtbf_df_end['MTBF (Horas)'],
-                    colorscale='Reds_r',
-                    cmin=80,
-                    cmax=160,
-                    showscale=True
+                    colorscale='Reds',
+                    showscale=False
                 )
             )
         )
@@ -309,18 +310,90 @@ try:
             yaxis=dict(
                 title='MTBF (Horas)',
                 side='left'
-            ),
+            )
         )
-
-        fig4.update_traces(marker_colorbar=dict(
-            tickvals=[80, 100, 120, 140, 160],
-            ticktext=["< 80 (Crítico)", "100", "120", "140", "160"]
-        ))
-        
         fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
         st.plotly_chart(fig4, use_container_width=True)
 
+    with col9:
 
+        tab1, tab2 = st.tabs(
+            ['MTTR', 'MTBF'], default = 'MTTR'
+        )
+
+        options = st.multiselect(
+                "Selecciona las semanas a graficar:",
+                data['Semana'].unique(),
+                default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
+            )
+        
+        with tab1:
+            df_week_end = df_week_end[df_week_end['Semana'].isin(options)]
+    
+            fig6 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig6.add_trace(
+                go.Bar(
+                    x = df_week_end['Semana'],
+                    y = df_week_end['MTTR'],
+                    name='MTTR (Horas)',
+                    text=df_week_end['MTTR'],
+                    textposition='auto',
+                    texttemplate='%{y:.2f}',
+                    marker=dict(
+                        color=df_week_end['MTTR'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig6.update_layout(
+                title='MTTR por semana',
+                xaxis=dict(title='Semana'),
+                yaxis=dict(
+                    title='MTTR (Horas)',
+                    side='left'
+                )
+            )
+    
+            fig6.add_hline(y=meta_mttr, line_dash="dash", line_color="green", annotation_text="Meta MTTR")
+            st.plotly_chart(fig6, use_container_width=True)
+
+        with tab2:
+            fig7 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig7.add_trace(
+                go.Bar(
+                    x = df_week_end['Semana'],
+                    y = df_week_end['MTBF'],
+                    name='MTBF (Horas)',
+                    text=df_week_end['MTBF'],
+                    textposition='auto',
+                    texttemplate='%{y:.2f}',
+                    marker=dict(
+                        color=df_week_end['MTBF'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig7.update_layout(
+                title='MTBF por semana',
+                xaxis=dict(title='Semana'),
+                yaxis=dict(
+                    title='MTBF (Horas)',
+                    side='left'
+                )
+            )
+    
+            fig7.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
+            st.plotly_chart(fig7, use_container_width=True)
+
+        
     
         
 
@@ -328,10 +401,10 @@ try:
 
     #data_prog = data_prog.groupby(['Maquina','Fecha'])['minProg'].sum()
 
-    st.write(mtbf_df_end)
-    st.write(mttr_df)
+    
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
+        #st.write(df_week_mtbf)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
