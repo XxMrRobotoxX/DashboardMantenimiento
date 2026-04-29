@@ -167,7 +167,7 @@ try:
                      color="Cantidad_Fallas",
                      color_continuous_scale="Reds",
                      orientation='h')
-        st.plotly_chart(fig2, use_container_widht=True)
+        st.plotly_chart(fig2, use_container_width=True)
 
     #st.write(df_pareto_filtered)
 
