@@ -166,19 +166,19 @@ try:
 
 
     with col5:
-        mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
-        st.subheader("Frecuencia Fallas")
-        fig2 = px.bar(mttr_df,
-                     x="Cantidad_Fallas",
-                     y="Maquina",
-                     text_auto='.0f',
-                     title="Cantidad de fallas",
-                     color="Cantidad_Fallas",
-                     color_continuous_scale="Reds",
-                     orientation='h')
-        st.plotly_chart(fig2, use_container_widht=True)
+        #mttr_df = mttr_df.sort_values(by="Cantidad_Fallas", ascending=True)
+        #st.subheader("Frecuencia Fallas")
+        #fig2 = px.bar(mttr_df,
+        #             x="Cantidad_Fallas",
+        #             y="Maquina",
+        #             text_auto='.0f',
+        #             title="Cantidad de fallas",
+        #             color="Cantidad_Fallas",
+        #             color_continuous_scale="Reds",
+        #             orientation='h')
+        #st.plotly_chart(fig2, use_container_widht=True)
 
-    #st.write(df_pareto_filtered)
+        st.write(df_filtered)
 
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
