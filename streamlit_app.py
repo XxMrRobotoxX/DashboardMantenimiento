@@ -396,8 +396,8 @@ try:
 
     with tab4:
         with st.expander("Ver datos completos"):
-        st.write(df_filtered)
-        st.write(df_week_mtbf)
+            st.write(df_filtered)
+            st.write(df_week_mtbf)
 
         
         
