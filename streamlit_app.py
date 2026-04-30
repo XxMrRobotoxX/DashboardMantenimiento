@@ -151,12 +151,12 @@ try:
         with col3:
             st.metric("MTBF Global (Horas)", f"{mtbf_global:.2f}", f"{delta_mtbf:.2f}")
 
-
-        options = st.multiselect(
-                "Selecciona las semanas a graficar:",
-                data['Semana'].unique(),
-                default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
-            )
+        expander = st.expander('Seleccionar las semanas a mostrar en gráfica:'):
+            options = st.multiselect(
+                    "Selecciona las semanas a graficar:",
+                    data['Semana'].unique(),
+                    default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
+                )
         
         col4, col5 = st.columns([2, 1])
 
