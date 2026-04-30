@@ -358,9 +358,9 @@ try:
             st.plotly_chart(fig5, use_container_width=True)
 
     with tab3:
-        col8, col9 = st.columns(2)
+        col10, col11 = st.columns(2)}
 
-        with col8:
+        with col10:
             st.subheader('MTBF por Máquina')
             
             fig4 = go.Figure()
