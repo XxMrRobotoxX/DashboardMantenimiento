@@ -258,104 +258,104 @@ try:
             st.plotly_chart(fig2, use_container_width=True)
 
         df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
-    lista_maquinas = data_maquinas[['ID']]
-    maquina_pareto = st.selectbox(
-        "Seleccionar Máquina", options = lista_maquinas)
-
-    col8, col9 = st.columns(2)
+        lista_maquinas = data_maquinas[['ID']]
+        maquina_pareto = st.selectbox(
+            "Seleccionar Máquina", options = lista_maquinas)
     
-    with col8:
+        col8, col9 = st.columns(2)
+        
+        with col8:
+        
+            df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+            df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
+            df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
+            
+            st.subheader("Diagrama de pareto 80-20")
     
-        df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-        df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
-        df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
-        
-        st.subheader("Diagrama de pareto 80-20")
-
-        fig3 = go.Figure()
-        
-        # Añadir Barras (Eje Y primario)
-        fig3.add_trace(
-            go.Bar(
-                x=df_pareto_filtered['Falla'],
-                y=df_pareto_filtered['Duration_Hrs'],
-                name='Duración (Hrs)',
-                marker=dict(
-                    color=df_pareto_filtered['Duration_Hrs'],
-                    colorscale='Reds',
-                    showscale=False
+            fig3 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig3.add_trace(
+                go.Bar(
+                    x=df_pareto_filtered['Falla'],
+                    y=df_pareto_filtered['Duration_Hrs'],
+                    name='Duración (Hrs)',
+                    marker=dict(
+                        color=df_pareto_filtered['Duration_Hrs'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
                 )
             )
-        )
-        
-        # Añadir Línea de Porcentaje (Eje Y secundario)
-        fig3.add_trace(
-            go.Scatter(
-                x=df_pareto_filtered['Falla'],
-                y=df_pareto_filtered['PorcentajeAcum'],
-                name='Porcentaje Acumulado',
-                mode='lines+markers',
-                line=dict(color='#EF553B', width=3),
-                yaxis='y2' # Indicamos que use el segundo eje
-            )
-        )
-        
-        # 3. Configuración del Layout para el eje secundario
-        fig3.update_layout(
-            title='Análisis de Fallas (Pareto)',
-            xaxis=dict(title='Falla'),
-            yaxis=dict(
-                title='Duración (Hrs)',
-                side='left'
-            ),
-            yaxis2=dict(
-                title='Porcentaje Acumulado (%)',
-                side='right',
-                overlaying='y',
-                range=[0, 105], # Rango de 0 a 100%
-                ticksuffix='%'
-            ),
-            legend=dict(x=0.8, y=1.1, orientation='h'),
-            template='plotly_dark' # Estilo oscuro para que combine con tu imagen
-        )
-        
-        st.plotly_chart(fig3, use_container_width=True)
-
-
-    with col9:
-        #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
-        cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-        cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
-        cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
-        cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
-        #st.write(cant_falla_df)
-        st.subheader('Frecuencia de fallas por Máquina')
-        
-        fig5 = go.Figure()
-        
-        # Añadir Barras (Eje Y primario)
-        fig5.add_trace(
-            go.Bar(
-                x=cant_falla_df['Falla'],
-                y=cant_falla_df['count'],
-                name='Frecuencia de fallas por Máquina',
-                marker=dict(
-                    color=cant_falla_df['count'],
-                    colorscale='Reds',
-                    showscale=False
+            
+            # Añadir Línea de Porcentaje (Eje Y secundario)
+            fig3.add_trace(
+                go.Scatter(
+                    x=df_pareto_filtered['Falla'],
+                    y=df_pareto_filtered['PorcentajeAcum'],
+                    name='Porcentaje Acumulado',
+                    mode='lines+markers',
+                    line=dict(color='#EF553B', width=3),
+                    yaxis='y2' # Indicamos que use el segundo eje
                 )
             )
-        )
-
-        fig5.update_layout(
-            title='Frecuencia de fallas por Máquina',
-            xaxis=dict(title='Máquina'),
-            yaxis=dict(
-                title='Cantidad de fallas',
-                side='left'
+            
+            # 3. Configuración del Layout para el eje secundario
+            fig3.update_layout(
+                title='Análisis de Fallas (Pareto)',
+                xaxis=dict(title='Falla'),
+                yaxis=dict(
+                    title='Duración (Hrs)',
+                    side='left'
+                ),
+                yaxis2=dict(
+                    title='Porcentaje Acumulado (%)',
+                    side='right',
+                    overlaying='y',
+                    range=[0, 105], # Rango de 0 a 100%
+                    ticksuffix='%'
+                ),
+                legend=dict(x=0.8, y=1.1, orientation='h'),
+                template='plotly_dark' # Estilo oscuro para que combine con tu imagen
             )
-        )
-        st.plotly_chart(fig5, use_container_width=True)
+            
+            st.plotly_chart(fig3, use_container_width=True)
+    
+    
+        with col9:
+            #cant_falla_df = df_pareto_filtered.gropupby('Falla')['Falla'].agg(['count'])
+            cant_falla_df = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+            cant_falla_df = cant_falla_df.groupby('Falla', as_index=False).size()
+            cant_falla_df = cant_falla_df.rename(columns={'size':'count'})
+            cant_falla_df = cant_falla_df.sort_values(by='count', ascending = False)
+            #st.write(cant_falla_df)
+            st.subheader('Frecuencia de fallas por Máquina')
+            
+            fig5 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig5.add_trace(
+                go.Bar(
+                    x=cant_falla_df['Falla'],
+                    y=cant_falla_df['count'],
+                    name='Frecuencia de fallas por Máquina',
+                    marker=dict(
+                        color=cant_falla_df['count'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig5.update_layout(
+                title='Frecuencia de fallas por Máquina',
+                xaxis=dict(title='Máquina'),
+                yaxis=dict(
+                    title='Cantidad de fallas',
+                    side='left'
+                )
+            )
+            st.plotly_chart(fig5, use_container_width=True)
 
     with tab3:
         col10, col11 = st.columns(2)
