@@ -158,7 +158,7 @@ try:
                     default = [max(data['Semana']), max(data['Semana'])-1, max(data['Semana'])-2, max(data['Semana'])-3]
                 )
         
-        col4, col5 = st.columns([2, 1])
+        col4, col5 = st.columns(2)
 
         with col4:
             df_week_end = df_week_end[df_week_end['Semana'].isin(options)]
