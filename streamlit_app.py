@@ -172,7 +172,7 @@ try:
             ))
             
             # Ajustar el tamaño para que quepa bien en el móvil
-            figd.update_layout(height=300, margin=dict(l=20, r=20, t=50, b=20))
+            figd.update_layout(height=300, margin=dict(l=10, r=10, t=30, b=10))
             
             # 3. Mostrar en Streamlit
             st.plotly_chart(figd, use_container_width=True)
