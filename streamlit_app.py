@@ -147,35 +147,7 @@ try:
             st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
     
         with col2:
-            figd = go.Figure(go.Indicator(
-                mode = "gauge+number",
-                value = disp,
-                number = {'suffix': "%", 'font': {'size': 28}},
-                title = {'text': "Disponibilidad Global", 'font': {'size': 18}},
-                gauge = {
-                    'axis': {'range': [0, 100], 'tickwidth': 1},
-                    'bar': {'color': "#ef4444"}, # Rojo como tu tema
-                    'bgcolor': "white",
-                    'borderwidth': 2,
-                    'bordercolor': "gray",
-                    'steps': [
-                        {'range': [0, 80], 'color': '#fee2e2'}, # Rojo muy claro
-                        {'range': [80, 90], 'color': '#fef3c7'}, # Amarillo/Naranja
-                        {'range': [90, 100], 'color': '#d1fae5'} # Verde (Clase Mundial)
-                    ],
-                    'threshold': {
-                        'line': {'color': "black", 'width': 3},
-                        'thickness': 0.75,
-                        'value': 90 # Tu meta de Clase Mundial
-                    }
-                }
-            ))
-            
-            # Ajustar el tamaño para que quepa bien en el móvil
-            figd.update_layout(height=180, margin=dict(l=10, r=10, t=30, b=10))
-            
-            # 3. Mostrar en Streamlit
-            st.plotly_chart(figd, use_container_width=True)
+            st.metric("Disponibilidad Global", f'{disp:.2f}'+'%')
     
         
         with col3:
