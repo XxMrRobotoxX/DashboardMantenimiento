@@ -150,8 +150,8 @@ try:
             figd = go.Figure(go.Indicator(
                 mode = "gauge+number",
                 value = disp,
-                number = {'suffix': "%", 'font': {'size': 40}},
-                title = {'text': "Disponibilidad Global", 'font': {'size': 24}},
+                number = {'suffix': "%", 'font': {'size': 28}},
+                title = {'text': "Disponibilidad Global", 'font': {'size': 18}},
                 gauge = {
                     'axis': {'range': [0, 100], 'tickwidth': 1},
                     'bar': {'color': "#ef4444"}, # Rojo como tu tema
@@ -164,7 +164,7 @@ try:
                         {'range': [90, 100], 'color': '#d1fae5'} # Verde (Clase Mundial)
                     ],
                     'threshold': {
-                        'line': {'color': "black", 'width': 4},
+                        'line': {'color': "black", 'width': 3},
                         'thickness': 0.75,
                         'value': 90 # Tu meta de Clase Mundial
                     }
@@ -172,7 +172,7 @@ try:
             ))
             
             # Ajustar el tamaño para que quepa bien en el móvil
-            figd.update_layout(height=300, margin=dict(l=10, r=10, t=30, b=10))
+            figd.update_layout(height=180, margin=dict(l=10, r=10, t=30, b=10))
             
             # 3. Mostrar en Streamlit
             st.plotly_chart(figd, use_container_width=True)
