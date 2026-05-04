@@ -140,12 +140,42 @@ try:
         mtbf_global = ((total_programado/60)-total_tm)/total_fallas
         meta_mtbf = 80
         delta_mtbf = mtbf_global - meta_mtbf
+
+        disp = mtbf_global / (mtbf_global - total_mttr)
         
         with col1:
             st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
     
         with col2:
-            st.metric("Total Intervenciones", len(df_filtered))
+            figd = go.Figure(go.Indicator(
+                mode = "gauge+number",
+                value = disp,
+                number = {'suffix': "%", 'font': {'size': 40}},
+                title = {'text': "Disponibilidad Global", 'font': {'size': 24}},
+                gauge = {
+                    'axis': {'range': [0, 100], 'tickwidth': 1},
+                    'bar': {'color': "#ef4444"}, # Rojo como tu tema
+                    'bgcolor': "white",
+                    'borderwidth': 2,
+                    'bordercolor': "gray",
+                    'steps': [
+                        {'range': [0, 80], 'color': '#fee2e2'}, # Rojo muy claro
+                        {'range': [80, 90], 'color': '#fef3c7'}, # Amarillo/Naranja
+                        {'range': [90, 100], 'color': '#d1fae5'} # Verde (Clase Mundial)
+                    ],
+                    'threshold': {
+                        'line': {'color': "black", 'width': 4},
+                        'thickness': 0.75,
+                        'value': 90 # Tu meta de Clase Mundial
+                    }
+                }
+            ))
+            
+            # Ajustar el tamaño para que quepa bien en el móvil
+            figd.update_layout(height=300, margin=dict(l=20, r=20, t=50, b=20))
+            
+            # 3. Mostrar en Streamlit
+            st.plotly_chart(figd, use_container_width=True)
     
         
         with col3:
