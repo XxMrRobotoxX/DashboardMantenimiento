@@ -141,7 +141,7 @@ try:
         meta_mtbf = 80
         delta_mtbf = mtbf_global - meta_mtbf
 
-        disp = mtbf_global / (mtbf_global - total_mttr)
+        disp = (mtbf_global / (mtbf_global + total_mttr))*100
         
         with col1:
             st.metric("MTTR Global (Horas)", f"{total_mttr:.2f}", f"{delta_mttr:.2f}", delta_color = "inverse")
