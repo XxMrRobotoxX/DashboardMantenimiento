@@ -105,9 +105,9 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
-        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
-        df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
-        df_hist.columns = ['Rango', 'Frecuencia']
+        #df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        #df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
+        #df_hist.columns = ['Rango', 'Frecuencia']
     else:
         df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -126,9 +126,9 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
-        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
-        df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
-        df_hist.columns = ['Rango', 'Frecuencia']
+        #df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        #df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
+        #df_hist.columns = ['Rango', 'Frecuencia']
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
