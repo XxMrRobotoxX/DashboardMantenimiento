@@ -81,7 +81,7 @@ try:
     
     # --- CÁLCULO DE MTTR ---
 
-    bins = [0, 0.5, 1, 2, 4, 5]
+    bins = [0, 0.5, 1, 2, 4, 5, float('inf')]
     labels = ['< 30 min', '30 min a 1 hr', '1 a 2 hrs', '2 a 3 hrs', '3 a 4 hrs', '4 a 5 hrs', '> 5 hrs']
 
     crit_filtred = st.toggle('Ver Máquinas Principales')
