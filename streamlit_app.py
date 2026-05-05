@@ -105,7 +105,7 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
-        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        df_filtered['Rango_Falla'] = pd.cut(df_filtered['Duration_Hrs'], bins=bins, labels=labels, right = False)
         df_hist = df_filtered['Rango_Falla'].value_counts().reindex(labels).reset_index()
         df_hist.columns = ['Rango', 'Frecuencia']
     else:
@@ -126,7 +126,7 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
-        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        df_filtered['Rango_Falla'] = pd.cut(df_filtered['Duration_Hrs'], bins=bins, labels=labels, right = False)
         df_hist = df_filtered['Rango_Falla'].value_counts().reindex(labels).reset_index()
         df_hist.columns = ['Rango', 'Frecuencia']
     
