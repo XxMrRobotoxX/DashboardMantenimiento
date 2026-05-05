@@ -406,6 +406,11 @@ try:
             st.plotly_chart(fig4, use_container_width=True)
 
     with tab4:
+        with st.expander("Ver datos completos"):
+            st.write(df_filtered)
+            st.write(df_hist)
+
+    with tab5:
         col10, col11 = st.columns(2)
 
         with col10:
@@ -430,10 +435,7 @@ try:
 
 
         
-    with tab5:
-        with st.expander("Ver datos completos"):
-            st.write(df_filtered)
-            st.write(df_week_mtbf)
+    
 
         
         
