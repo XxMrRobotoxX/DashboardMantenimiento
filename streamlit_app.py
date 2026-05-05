@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
 import datetime
 from datetime import datetime
+import numpy as np
 
 # Actualizar la aplicación cada 5 minutos (300,000 milisegundos)
 count = st_autorefresh(interval=300000, key="datarefresh")
@@ -80,6 +81,9 @@ try:
     
     # --- CÁLCULO DE MTTR ---
 
+    bins = [0, 0.5, 1, 2, 4, 5, float('inf')]
+    labels = ['< 30 min', '30 min a 1 hr', '1 a 2 hrs', '2 a 3 hrs', '3 a 4 hrs', '4 a 5 hrs', '> 5 hrs']
+
     crit_filtred = st.toggle('Ver Máquinas Principales')
 
     if crit_filtred:
@@ -101,6 +105,9 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
+        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
+        df_hist.columns = ['Rango', 'Frecuencia']
     else:
         df_filtered_week = df_filtered_week[df_filtered_week["Maquina"].isin(criticas)]
         mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -119,6 +126,9 @@ try:
         df_week.columns = ['Semana','MTTR','CantidadFallas','Downtime']
         df_week_end = pd.merge(df_week, df_week_mtbf, on = 'Semana', how = 'left')
         df_week_end['MTBF'] = ((df_week_end['minProg']/60)-(df_week_end['Downtime']))/df_week_end['CantidadFallas']
+        df_filtered['Rango_Falla'] = pd.cut(df['Duration_Hrs'], bins=bins, labels=labels, right = False)
+        df_hist = df_filtered['Rango_Falla'].value_counts()-reindex(labels).reset_index()
+        df_hist.columns = ['Rango', 'Frecuencia']
     
     # MTTR = Suma de tiempo de reparación / Número de intervenciones
     #mttr_df = df_filtered.groupby("Maquina")["Duration_Hrs"].agg(['mean', 'count']).reset_index()
@@ -127,7 +137,7 @@ try:
 
     # --- VISUALIZACIÓN ---
 
-    tab1, tab2, tab3, tab4 = st.tabs(['KPI Globales','MTTR','MTBF','Datos'])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(['KPI Globales','MTTR','MTBF','Analisis','Datos'])
 
     with tab1:
         col1, col2, col3 = st.columns(3)
@@ -395,8 +405,32 @@ try:
             fig4.add_hline(y=meta_mtbf, line_dash="dash", line_color="green", annotation_text="Meta MTBF")
             st.plotly_chart(fig4, use_container_width=True)
 
-
     with tab4:
+        col10, col11 = st.columns(2)
+
+        with col10:
+            fig_hist = px.bar(
+                df_hist,
+                x='Rango',
+                y='Frecuencia',
+                text='Frecuencia',
+                color_discrete_sequence=['#D32F2F']
+            )
+
+            fig_hist.update_layout(
+                xaxis_title = 'Duracion de la Falla',
+                yaxis_title = 'Cantidad de fallas',
+                plot_bgcolor = 'rgba(0,0,0,0)',
+                height = 400
+            )
+
+            st.plotly_chart(fig_hist, use_container_widht = True)
+            
+
+
+
+        
+    with tab5:
         with st.expander("Ver datos completos"):
             st.write(df_filtered)
             st.write(df_week_mtbf)
