@@ -242,6 +242,7 @@ try:
                 range=[0, 105], # Rango de 0 a 100%
                 ticksuffix='%'
             ),
+            showlegend = False,
             template='plotly_dark' # Estilo oscuro para que combine con tu imagen
         )
         
