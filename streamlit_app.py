@@ -242,7 +242,6 @@ try:
                 range=[0, 105], # Rango de 0 a 100%
                 ticksuffix='%'
             ),
-            legend=dict(x=0.8, y=1.1, orientation='h'),
             template='plotly_dark' # Estilo oscuro para que combine con tu imagen
         )
         
@@ -413,7 +412,6 @@ try:
     
     with st.expander("Ver datos completos"):
         st.write(df_filtered)
-        st.write(df_pareto_test)
 
 except Exception as e:
     st.error("Error al cargar los datos. Verifica que el enlace de Google Sheets sea correcto y público.")
