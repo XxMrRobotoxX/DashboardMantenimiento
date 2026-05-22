@@ -183,7 +183,7 @@ try:
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
     maquina_pareto = st.selectbox(
-        "Seleccionar Máquina", options = lista_maquinas)
+        "Seleccionar Máquina", index = None,  options = lista_maquinas)
 
     col6, col7 = st.columns(2)
     
