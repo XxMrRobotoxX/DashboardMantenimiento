@@ -188,8 +188,9 @@ try:
     col6, col7 = st.columns(2)
     
     with col6:
-    
-        df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+
+        if maquina_pareto != None:
+            df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
         df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
         
