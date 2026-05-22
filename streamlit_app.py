@@ -183,17 +183,19 @@ try:
     df_pareto = df_filtered[['Maquina','Falla','Duration_Hrs']]
     lista_maquinas = data_maquinas[['ID']]
     maquina_pareto = st.selectbox(
-        "Seleccionar Máquina",  options = lista_maquinas)
+        "Seleccionar Máquina", index = None, options = lista_maquinas)
 
     col6, col7 = st.columns(2)
     
     with col6:
-
-        df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
-        df_pareto_test = df_pareto.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
-        df_pareto_test['PorcentajeAcum'] = df_pareto_test['Duration_Hrs'].cumsum()/df_pareto_test['Duration_Hrs'].sum()*100
-        df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
-        df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
+        if maquina_pareto != None:
+            df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
+            df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
+            df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
+        else:
+            df_pareto_filtered = df_pareto.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
+            df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
+        
         
         st.subheader("Diagrama de pareto 80-20")
 
