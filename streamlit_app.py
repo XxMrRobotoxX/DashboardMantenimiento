@@ -191,6 +191,7 @@ try:
 
         df_pareto_filtered = df_pareto[df_pareto['Maquina'] == maquina_pareto]
         df_pareto_test = df_pareto.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
+        df_pareto_test['PorcentajeAcum'] = df_pareto_test['Duration_Hrs'].cumsum()/df_pareto_test['Duration_Hrs'].sum()*100
         df_pareto_filtered = df_pareto_filtered.groupby('Falla')['Duration_Hrs'].sum().sort_values(ascending=False).reset_index()
         df_pareto_filtered['PorcentajeAcum'] = df_pareto_filtered['Duration_Hrs'].cumsum()/df_pareto_filtered['Duration_Hrs'].sum()*100
         
