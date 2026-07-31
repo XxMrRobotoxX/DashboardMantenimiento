@@ -421,7 +421,8 @@ try:
         st.write(df_tm_group)
 
         with col12:
-            # px.bar es el correcto porque tus datos ya están pre-agrupados
+            df_tm_group = df_tm_group.reset_index()
+            
             fig8 = px.bar(
                 df_tm_group,
                 x='Category',
@@ -435,8 +436,6 @@ try:
             )
             
             st.plotly_chart(fig8, use_container_width=True)
-
-
 
         
        
