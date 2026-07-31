@@ -412,7 +412,7 @@ try:
             st.write(df_week)
 
     with tab5:
-        col10, col11 = st.columns(2)
+        col12, col13 = st.columns(2)
 
         df_tm_group = df_filtered
         df_tm_group['Category'] = pd.cut(df_filtered['Duration_Hrs'], bins = [0,0.33,0.66,1,1.5,2,4,8], labels = ["0-20 min", "21-40 min", "41-60 min", "1 - 1.5 horas", "1.5 - 2 horas", "2 - 4 horas", "4 - 8 horas"])
@@ -421,7 +421,7 @@ try:
         st.write(df_tm_group)
 
 
-        with col10:
+        with col12:
             
             fig8 = go.Figure()
                         
