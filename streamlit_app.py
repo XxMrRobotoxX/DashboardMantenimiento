@@ -416,7 +416,7 @@ try:
 
         df_tm_group = df_filtered
         df_tm_group['Category'] = pd.cut(df_filtered['Duration_Hrs'], bins = [0,0.33,0.66,1,1.5,2,4,8], labels = ["0-20 min", "21-40 min", "41-60 min", "1 - 1.5 horas", "1.5 - 2 horas", "2 - 4 horas", "4 - 8 horas"])
-        df_tm_group['Category'] = df_tm_group['Category'].cat.add_categories('Más de 16 horas').fillna('Más de 8 horas')
+        df_tm_group['Category'] = df_tm_group['Category'].cat.add_categories('Más de 8 horas').fillna('Más de 8 horas')
         df_tm_group = df_tm_group.groupby('Category')['Duration_Hrs'].count()
         st.write(df_tm_group)
 
