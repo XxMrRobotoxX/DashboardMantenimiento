@@ -422,25 +422,32 @@ try:
 
         
         with col10:
-            fig_hist = px.bar(
-                df_tm_group,
-                x='Category',
-                y='Frecuencia',
-                text='Frecuencia',
-                color_discrete_sequence=['#D32F2F']
-            )
-
-            fig_hist.update_layout(
-                xaxis_title = 'Duracion de la Falla',
-                yaxis_title = 'Cantidad de fallas',
-                plot_bgcolor = 'rgba(0,0,0,0)',
-                height = 400
-            )
-
-            st.plotly_chart(fig_hist, use_container_widht = True)
+            fig6 = go.Figure()
             
-
-
+            # Añadir Barras (Eje Y primario)
+            fig8.add_trace(
+                go.Bar(
+                    x = df_tm_group['Category'],
+                    y = df_tm_group['Duration_Hrs'],
+                    name='Histograma duracion paros',
+                    marker=dict(
+                        color=df_tm_group['Category'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig8.update_layout(
+                title='Histograma Duracion de fallas',
+                xaxis=dict(title='Duración de falla'),
+                yaxis=dict(
+                    title='Frecuencia',
+                    side='left'
+                )
+            )
+    
+            st.plotly_chart(fig8, use_container_width=True)
 
         
     
