@@ -420,6 +420,25 @@ try:
         df_tm_group = df_tm_group.groupby('Category')['Duration_Hrs'].count()
         st.write(df_tm_group)
 
+        with col12:
+            # px.bar es el correcto porque tus datos ya están pre-agrupados
+            fig8 = px.bar(
+                df_tm_group,
+                x='Category',
+                y='Duration_Hrs',
+                title='Histograma Duración Fallas',
+                color='Duration_Hrs',          # El color varía según la altura de la barra
+                color_continuous_scale='Reds'  # Escala de colores rojos
+            )
+            
+            fig8.update_layout(
+                xaxis_title='Duración de falla',
+                yaxis_title='Frecuencia',
+                coloraxis_showscale=False      # Oculta la barra de escala de color lateral
+            )
+            
+            st.plotly_chart(fig8, use_container_width=True)
+
 
 
         
