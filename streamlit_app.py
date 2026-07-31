@@ -426,15 +426,12 @@ try:
                 df_tm_group,
                 x='Category',
                 y='Duration_Hrs',
-                title='Histograma Duración Fallas',
-                color='Duration_Hrs',          # El color varía según la altura de la barra
-                color_continuous_scale='Reds'  # Escala de colores rojos
+                title='Histograma Duración Fallas'
             )
             
             fig8.update_layout(
                 xaxis_title='Duración de falla',
-                yaxis_title='Frecuencia',
-                coloraxis_showscale=False      # Oculta la barra de escala de color lateral
+                yaxis_title='Frecuencia'
             )
             
             st.plotly_chart(fig8, use_container_width=True)
