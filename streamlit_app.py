@@ -415,27 +415,29 @@ try:
         col10, col11 = st.columns(2)
 
         df_tm_group = df_filtered
-        df_tm_group['Category'] = pd.cut(df_filtered['Duration_Hrs'], bins = [0,0.33,0.66,1,1.5,2,4,8,16], labels = ["0-20 min", "21-40 min", "41-60 min", "1 - 1.5 horas", "1.5 - 2 horas", "2 - 4 horas", "4 - 8 horas", "8 - 16 horas"])
-        df_tm_group['Category'] = df_tm_group['Category'].cat.add_categories('Más de 16 horas').fillna('Más de 16 horas')
+        df_tm_group['Category'] = pd.cut(df_filtered['Duration_Hrs'], bins = [0,0.33,0.66,1,1.5,2,4,8], labels = ["0-20 min", "21-40 min", "41-60 min", "1 - 1.5 horas", "1.5 - 2 horas", "2 - 4 horas", "4 - 8 horas"])
+        df_tm_group['Category'] = df_tm_group['Category'].cat.add_categories('Más de 16 horas').fillna('Más de 8 horas')
         df_tm_group = df_tm_group.groupby('Category')['Duration_Hrs'].count()
         st.write(df_tm_group)
-        #with col10:
-        #    fig_hist = px.bar(
-        #        df_hist,
-        #        x='Rango',
-        #        y='Frecuencia',
-        #        text='Frecuencia',
-        #        color_discrete_sequence=['#D32F2F']
-        #    )
 
-        #    fig_hist.update_layout(
-        #        xaxis_title = 'Duracion de la Falla',
-        #        yaxis_title = 'Cantidad de fallas',
-        #        plot_bgcolor = 'rgba(0,0,0,0)',
-        #        height = 400
-        #    )
+        
+        with col10:
+            fig_hist = px.bar(
+                df_tm_group,
+                x='Category',
+                y='Frecuencia',
+                text='Frecuencia',
+                color_discrete_sequence=['#D32F2F']
+            )
 
-        #    st.plotly_chart(fig_hist, use_container_widht = True)
+            fig_hist.update_layout(
+                xaxis_title = 'Duracion de la Falla',
+                yaxis_title = 'Cantidad de fallas',
+                plot_bgcolor = 'rgba(0,0,0,0)',
+                height = 400
+            )
+
+            st.plotly_chart(fig_hist, use_container_widht = True)
             
 
 
