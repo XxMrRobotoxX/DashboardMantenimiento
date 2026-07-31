@@ -414,6 +414,9 @@ try:
     with tab5:
         col10, col11 = st.columns(2)
 
+
+        df_tm_group = pd.cut(df_filtered, bins = [0,0.33,0.66,1,1.5,2,4,8,16], labels = ["0-20 min", "21-40 min", "41-60 min", "1 - 1.5 horas", "1.5 - 2 horas", "2 - 4 horas", "4 - 8 horas", "8 - 16 horas"])
+        st.write(df_tm_group)
         #with col10:
         #    fig_hist = px.bar(
         #        df_hist,
