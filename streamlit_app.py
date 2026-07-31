@@ -421,32 +421,6 @@ try:
         st.write(df_tm_group)
 
 
-        with col12:
-            
-            fig8 = go.Figure()
-                        
-            # Añadir Barras (Tus datos ya están agrupados)
-            fig8.add_trace(
-                go.Bar(
-                    x = df_tm_group['Category'],
-                    y = df_tm_group['Duration_Hrs'],
-                    name='Histograma Duracion fallas',
-                    marker=dict(
-                        color=df_tm_group['Duration_Hrs'], # CORREGIDO: Usar los valores numéricos para el color
-                        colorscale='Reds',
-                        showscale=False
-                    )
-                )
-            )
-            
-            fig8.update_layout(
-                title='Histograma Duración Fallas',
-                xaxis=dict(title='Duración de falla'),
-                yaxis=dict(title='Frecuencia')
-            )
-            
-            st.plotly_chart(fig8, use_container_width=True)
-
 
         
        
