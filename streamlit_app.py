@@ -422,32 +422,24 @@ try:
 
 
         with col10:
-
-            fig8 = go.Figure()
             
             # Añadir Barras (Eje Y primario)
-            fig8.add_trace(
-                go.Bar(
-                    x = df_tm_group['Category'],
-                    y = df_tm_group['Duration_Hrs'],
-                    name='Histograma Duracion fallas',
-                    marker=dict(
-                        color=df_tm_group['Category'],
-                        colorscale='Reds',
-                        showscale=False
-                    )
-                )
+            fig8 = px.histogram(
+                df_tm_group, 
+                x="Duration_Hrs",           # El eje X debe ser la duración numérica
+                nbins=20,                   # Número de barras/intervalos
+                title="Histograma Duración Fallas",
+                color="Duration_Hrs",       # Aplica color basado en el valor
+                color_continuous_scale="Reds" # Escala de colores rojos
             )
-    
+            
+            # Ajustar diseño y ocultar la barra de escala de color si no la deseas
             fig8.update_layout(
-                title='Histograma Duracion Fallas',
-                xaxis=dict(title='Duracion de falla'),
-                yaxis=dict(
-                    title='Frecuencia',
-                    side='left'
-                )
+                xaxis_title="Duración de falla (Hrs)",
+                yaxis_title="Frecuencia",
+                coloraxis_showscale=False
             )
-
+            
             st.plotly_chart(fig8, use_container_width=True)
 
 
