@@ -422,7 +422,7 @@ try:
 
         
         with col10:
-            fig6 = go.Figure()
+            fig8 = go.Figure()
             
             # Añadir Barras (Eje Y primario)
             fig8.add_trace(
