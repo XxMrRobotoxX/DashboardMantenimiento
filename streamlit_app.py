@@ -414,23 +414,23 @@ try:
     with tab5:
         col10, col11 = st.columns(2)
 
-        with col10:
-            fig_hist = px.bar(
-                df_hist,
-                x='Rango',
-                y='Frecuencia',
-                text='Frecuencia',
-                color_discrete_sequence=['#D32F2F']
-            )
+        #with col10:
+        #    fig_hist = px.bar(
+        #        df_hist,
+        #        x='Rango',
+        #        y='Frecuencia',
+        #        text='Frecuencia',
+        #        color_discrete_sequence=['#D32F2F']
+        #    )
 
-            fig_hist.update_layout(
-                xaxis_title = 'Duracion de la Falla',
-                yaxis_title = 'Cantidad de fallas',
-                plot_bgcolor = 'rgba(0,0,0,0)',
-                height = 400
-            )
+        #    fig_hist.update_layout(
+        #        xaxis_title = 'Duracion de la Falla',
+        #        yaxis_title = 'Cantidad de fallas',
+        #        plot_bgcolor = 'rgba(0,0,0,0)',
+        #        height = 400
+        #    )
 
-            st.plotly_chart(fig_hist, use_container_widht = True)
+        #    st.plotly_chart(fig_hist, use_container_widht = True)
             
 
 
