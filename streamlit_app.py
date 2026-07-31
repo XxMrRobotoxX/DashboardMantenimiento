@@ -420,6 +420,37 @@ try:
         df_tm_group = df_tm_group.groupby('Category')['Duration_Hrs'].count()
         st.write(df_tm_group)
 
+
+        with col10:
+
+            fig8 = go.Figure()
+            
+            # Añadir Barras (Eje Y primario)
+            fig8.add_trace(
+                go.Bar(
+                    x = df_tm_group['Category'],
+                    y = df_tm_group['Duration_Hrs'],
+                    name='Histograma Duracion fallas',
+                    marker=dict(
+                        color=df_tm_group['Category'],
+                        colorscale='Reds',
+                        showscale=False
+                    )
+                )
+            )
+    
+            fig8.update_layout(
+                title='Histograma Duracion Fallas',
+                xaxis=dict(title='Duracion de falla'),
+                yaxis=dict(
+                    title='Frecuencia',
+                    side='left'
+                )
+            )
+
+            st.plotly_chart(fig8, use_container_width=True)
+
+
         
        
     
